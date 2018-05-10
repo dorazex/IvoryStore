@@ -18,16 +18,16 @@
         <activity android:name="com.example.IvoryStore.EmailPasswordActivity" />
         <activity android:name="com.example.IvoryStore.GoogleSignInActivity" />
         <activity android:name="com.example.IvoryStore.FacebookSignInActivity" />
-        <activity android:name="com.example.IvoryStore.HomeActivity">
+        <activity android:name="com.example.IvoryStore.HomeActivity" />
+        <activity android:name="com.example.IvoryStore.AnonymousHomeActivity" />
+        <activity android:name="com.example.IvoryStore.IvoryStoreMain"/>
+        <activity android:name="com.example.IvoryStore.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.IvoryStore.AnonymousHomeActivity"></activity>
 
-        <activity android:name="com.example.IvoryStore.IvoryStoreMain"></activity>
     </application>
 
 </manifest>
