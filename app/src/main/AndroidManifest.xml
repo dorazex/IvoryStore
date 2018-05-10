@@ -26,6 +26,8 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.IvoryStore.AnonymousHomeActivity"></activity>
+
+        <activity android:name="com.example.IvoryStore.IvoryStoreMain"></activity>
     </application>
 
 </manifest>
