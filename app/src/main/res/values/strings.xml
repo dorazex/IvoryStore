@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Authentication</string>
+    <string name="auth_failed">Authentication Failed</string>
+    <string name="emailpassword_status_fmt">Email User: %1$s (verified: %2$b)</string>
+    <string name="firebase_status_fmt">Firebase User: %s</string>
+    <string name="signed_out">Signed Out</string>
+    <string name="google_status_fmt">Google User: %s</string>
+    <string name="facebook_status_fmt">Facebook User: %s</string>
+    <string name="facebook_app_id">167575633928372</string>
+    <string name="fb_login_protocol_scheme">fb167575633928372</string>
+    <string name="anonymous_user_home_text">He\'s a real nowhere man\nSitting in his nowhere land\nMaking all his nowhere plans\nFor nobody</string>
+    <string name="choose_method_title">Choose a Sign In Method</string>
+    <string name="email_sign_in_button_text">Email</string>
+    <string name="google_sign_in_button_text">Google</string>
+    <string name="facebook_sign_in_button_text">Facebook</string>
+    <string name="anonymous_sign_in_button_text">Anonymous</string>
+    <string name="status_default">Status</string>
+    <string name="detail_default">Detail</string>
+    <string name="sign_in_button_text">Sign In</string>
+    <string name="sign_out_button_text">Sign Out</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="create_account_button_text">Email Create Account</string>
+    <string name="verify_email_button_text">Verify Email</string>
+</resources>

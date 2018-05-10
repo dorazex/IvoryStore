@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.IvoryStore.GoogleSignInActivity">
+
+    <TextView
+        android:id="@+id/GoogleStatusTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="7dp"
+        android:text="@string/status_default"
+        android:textAlignment="textStart"
+        android:textSize="18sp"
+        tools:text="Status" />
+
+    <TextView
+        android:id="@+id/GoogleDetailTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="7dp"
+        android:text="@string/detail_default"
+        android:textAlignment="textStart"
+        android:textSize="18sp"
+        tools:text="Detail" />
+
+    <LinearLayout
+        android:id="@+id/google_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/GoogleSignInButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:text="@string/sign_in_button_text" />
+
+        <Button
+            android:id="@+id/GoogleSignOutButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:text="@string/sign_out_button_text" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
