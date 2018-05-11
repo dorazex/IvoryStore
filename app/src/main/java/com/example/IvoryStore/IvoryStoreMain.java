@@ -21,8 +21,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.example.IvoryStore.adapter.SongWithKey;
-import com.example.IvoryStore.adapter.SongsAdapter;
+import com.example.IvoryStore.adapter.IvoryProductWithKey;
+import com.example.IvoryStore.adapter.IvoryProductsAdapter;
 import com.example.IvoryStore.model.User;
 
 import java.util.ArrayList;
@@ -35,11 +35,11 @@ public class IvoryStoreMain extends Activity {
     private DatabaseReference myUserRef;
 
 
-    private List<SongWithKey> songsList = new ArrayList<>();
+    private List<IvoryProductWithKey> songsList = new ArrayList<>();
 
     private RecyclerView recyclerView;
     private TextView titleTextView;
-    private SongsAdapter songsAdapter;
+    private IvoryProductsAdapter ivoryProductsAdapter;
     private User myUser;
 
 
@@ -95,8 +95,8 @@ public class IvoryStoreMain extends Activity {
 
 
         songsList.clear();
-        songsAdapter = new SongsAdapter(songsList,myUser);
-        recyclerView.setAdapter(songsAdapter);
+        ivoryProductsAdapter = new IvoryProductsAdapter(songsList,myUser);
+        recyclerView.setAdapter(ivoryProductsAdapter);
 
         //getAllSongsUsingValueListenrs();
         getAllSongsUsingChildListenrs();
@@ -136,8 +136,8 @@ public class IvoryStoreMain extends Activity {
 
                 Log.e(TAG, "onChildAdded(Songs) >> " + snapshot.getKey());
 
-                SongWithKey songWithKey = new SongWithKey(snapshot.getKey(),snapshot.getValue(IvoryProduct.class));
-                songsList.add(songWithKey);
+                IvoryProductWithKey ivoryProductWithKey = new IvoryProductWithKey(snapshot.getKey(),snapshot.getValue(IvoryProduct.class));
+                songsList.add(ivoryProductWithKey);
                 recyclerView.getAdapter().notifyDataSetChanged();
 
                 Log.e(TAG, "onChildAdded(Songs) <<");
@@ -152,9 +152,9 @@ public class IvoryStoreMain extends Activity {
                 String key = snapshot.getKey();
 
                 for (int i = 0 ; i < songsList.size() ; i++) {
-                    SongWithKey songWithKey = (SongWithKey) songsList.get(i);
-                    if (songWithKey.getKey().equals(snapshot.getKey())) {
-                        songWithKey.setIvoryProduct(ivoryProduct);
+                    IvoryProductWithKey ivoryProductWithKey = (IvoryProductWithKey) songsList.get(i);
+                    if (ivoryProductWithKey.getKey().equals(snapshot.getKey())) {
+                        ivoryProductWithKey.setIvoryProduct(ivoryProduct);
                         recyclerView.getAdapter().notifyDataSetChanged();
                         break;
                     }
@@ -181,8 +181,8 @@ public class IvoryStoreMain extends Activity {
                 String key = snapshot.getKey();
 
                 for (int i = 0 ; i < songsList.size() ; i++) {
-                    SongWithKey songWithKey = (SongWithKey) songsList.get(i);
-                    if (songWithKey.getKey().equals(snapshot.getKey())) {
+                    IvoryProductWithKey ivoryProductWithKey = (IvoryProductWithKey) songsList.get(i);
+                    if (ivoryProductWithKey.getKey().equals(snapshot.getKey())) {
                         songsList.remove(i);
                         recyclerView.getAdapter().notifyDataSetChanged();
                         Log.e(TAG, "onChildRemoved(Songs) >> i="+i);
@@ -209,7 +209,7 @@ public class IvoryStoreMain extends Activity {
             IvoryProduct ivoryProduct = dataSnapshot.getValue(IvoryProduct.class);
             Log.e(TAG, "updateSongList() >> adding ivoryProduct: " + ivoryProduct.getName());
             String key = dataSnapshot.getKey();
-            songsList.add(new SongWithKey(key, ivoryProduct));
+            songsList.add(new IvoryProductWithKey(key, ivoryProduct));
         }
          recyclerView.getAdapter().notifyDataSetChanged();
 

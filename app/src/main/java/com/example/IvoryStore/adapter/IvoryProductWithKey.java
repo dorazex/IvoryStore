@@ -3,11 +3,11 @@ package com.example.IvoryStore.adapter;
 import com.example.IvoryStore.model.IvoryProduct;
 
 
-public class SongWithKey {
+public class IvoryProductWithKey {
     private String key;
     private IvoryProduct ivoryProduct;
 
-    public SongWithKey(String key, IvoryProduct ivoryProduct) {
+    public IvoryProductWithKey(String key, IvoryProduct ivoryProduct) {
         this.key = key;
         this.ivoryProduct = ivoryProduct;
     }

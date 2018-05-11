@@ -72,7 +72,7 @@ public class IvoryDetailsActivity extends AppCompatActivity {
         StorageReference thumbRef = FirebaseStorage
                 .getInstance()
                 .getReference()
-                .child("thumbs/" + ivoryProduct.getThumbImage());
+                .child("product_image/" + ivoryProduct.getThumbImage());
 
         // Load the image using Glide
         Glide.with(this)
@@ -86,7 +86,7 @@ public class IvoryDetailsActivity extends AppCompatActivity {
         buyPlay = ((Button) findViewById(R.id.buttonBuyPlay));
 
         buyPlay.setText("BUY $" + ivoryProduct.getPrice());
-        Iterator i = user.getMySongs().iterator();
+        Iterator i = user.getUserProducts().iterator();
         while (i.hasNext()) {
             if (i.next().equals(key)) {
                 songWasPurchased = true;
@@ -111,7 +111,7 @@ public class IvoryDetailsActivity extends AppCompatActivity {
                 } else {
                     //Purchase the ivoryProduct.
                     Log.e(TAG, "buyPlay.onClick() >> Purchase the ivoryProduct");
-                    user.getMySongs().add(key);
+                    user.getUserProducts().add(key);
                     user.upgdateTotalPurchase(ivoryProduct.getPrice());
                     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
                     userRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user);

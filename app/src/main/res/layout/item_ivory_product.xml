@@ -9,7 +9,7 @@
     >
 
     <android.support.v7.widget.CardView
-        android:id="@+id/card_view_song"
+        android:id="@+id/card_view_product"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_gravity="center"
@@ -25,7 +25,7 @@
             android:padding="4dp">
 
             <ImageView
-                android:id="@+id/song_thumb_image"
+                android:id="@+id/product_image"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginBottom="8dp"
@@ -37,7 +37,7 @@
                 card_view:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/song_name"
+                android:id="@+id/product_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -46,44 +46,32 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                card_view:layout_constraintStart_toEndOf="@+id/song_thumb_image"
+                card_view:layout_constraintStart_toEndOf="@+id/product_image"
                 card_view:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/song_reviewer_mail"
+                android:id="@+id/product_reviewer_mail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="[artist]"
                 android:textColor="@android:color/holo_blue_dark"
-                card_view:layout_constraintStart_toEndOf="@+id/song_thumb_image"
-                card_view:layout_constraintTop_toBottomOf="@+id/song_name" />
+                card_view:layout_constraintStart_toEndOf="@+id/product_image"
+                card_view:layout_constraintTop_toBottomOf="@+id/product_name" />
 
             <TextView
-                android:id="@+id/song_genre"
+                android:id="@+id/product_death_reason"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="[genere]"
                 android:textColor="@android:color/holo_blue_light"
                 android:textSize="14sp"
-                card_view:layout_constraintStart_toEndOf="@+id/song_thumb_image"
-                card_view:layout_constraintTop_toBottomOf="@+id/song_reviewer_mail" />
-
-            <RatingBar
-                android:id="@+id/song_rating"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="17dp"
-                android:layout_marginStart="8dp"
-                android:numStars="5"
-                android:rating="0"
-                android:stepSize="0.1"
-                card_view:layout_constraintStart_toEndOf="@+id/song_thumb_image"
-                card_view:layout_constraintTop_toBottomOf="@+id/song_genre" />
+                card_view:layout_constraintStart_toEndOf="@+id/product_image"
+                card_view:layout_constraintTop_toBottomOf="@+id/product_reviewer_mail" />
 
             <TextView
-                android:id="@+id/song_price"
+                android:id="@+id/product_origin"
                 android:layout_width="66dp"
                 android:layout_height="32dp"
                 android:layout_marginEnd="8dp"
@@ -97,13 +85,13 @@
                 card_view:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
-                android:id="@+id/song_review_count"
+                android:id="@+id/product_review_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                card_view:layout_constraintStart_toEndOf="@+id/song_rating" />
+                card_view:layout_constraintStart_toEndOf="@+id/product_death_reason" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>

@@ -31,7 +31,7 @@ public class User implements Parcelable {
         this.totalPurchase += newPurcahsePrice;
     }
 
-    public List<String> getMySongs() {
+    public List<String> getUserProducts() {
         return mySongs;
     }
 
