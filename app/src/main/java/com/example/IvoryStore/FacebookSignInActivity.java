@@ -143,11 +143,9 @@ public class FacebookSignInActivity extends Activity implements
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            mStatusTextView.setText(getString(R.string.facebook_status_fmt, user.getDisplayName()));
-            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-
-            findViewById(R.id.FacebookSignInButton).setVisibility(View.GONE);
-            findViewById(R.id.FacebookSignOutButton).setVisibility(View.VISIBLE);
+            Intent intent = new Intent(getApplicationContext(), IvoryStoreMain.class);
+            startActivity(intent);
+            finish();
         } else {
             mStatusTextView.setText(R.string.signed_out);
             mDetailTextView.setText(null);

@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
-import com.example.IvoryStore.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -26,7 +25,6 @@ import com.example.IvoryStore.model.Song;
 import com.example.IvoryStore.model.User;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class IvoryStoreMain extends Activity {
@@ -49,7 +47,7 @@ public class IvoryStoreMain extends Activity {
         Log.e(TAG, "onCreate() >>");
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_music_player_main);
+        setContentView(R.layout.activity_ivory_store_main);
 
 
         recyclerView = (RecyclerView) findViewById(R.id.songs_list);

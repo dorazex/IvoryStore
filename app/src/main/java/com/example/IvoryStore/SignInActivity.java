@@ -13,12 +13,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
-public class HomeActivity extends Activity {
+public class SignInActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_sign_in);
 
         // set up remote config
         final FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
@@ -34,14 +34,14 @@ public class HomeActivity extends Activity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(HomeActivity.this, "Fetch Succeeded",
+                            Toast.makeText(SignInActivity.this, "Fetch Succeeded",
                                     Toast.LENGTH_SHORT).show();
 
                             // After config data is successfully fetched, it must be activated before newly fetched
                             // values are returned.
                             mFirebaseRemoteConfig.activateFetched();
                         } else {
-                            Toast.makeText(HomeActivity.this, "Fetch Failed",
+                            Toast.makeText(SignInActivity.this, "Fetch Failed",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }

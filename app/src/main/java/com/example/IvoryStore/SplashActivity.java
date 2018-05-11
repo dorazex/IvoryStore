@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class SplashActivity extends Activity {
+    private static final String TAG = "SplashActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,10 +20,11 @@ public class SplashActivity extends Activity {
                 try{
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+
                     sleep(3000);
 
                     Intent intent = new Intent(getApplicationContext(),
-                            user == null ? HomeActivity.class : IvoryStoreMain.class);
+                            user == null ? SignInActivity.class : IvoryStoreMain.class);
                     startActivity(intent);
                     finish();
                 }

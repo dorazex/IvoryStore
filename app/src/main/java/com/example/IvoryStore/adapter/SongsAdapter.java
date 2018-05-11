@@ -13,11 +13,11 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.IvoryStore.IvoryDetailsActivity;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.example.IvoryStore.R;
-import com.example.IvoryStore.SongDetailsActivity;
 import com.example.IvoryStore.model.Song;
 import com.example.IvoryStore.model.User;
 
@@ -144,7 +144,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
                     Log.e(TAG, "CardView.onClick() >> name=" + selectedSong.getName());
 
                     Context context = view.getContext();
-                    Intent intent = new Intent(context, SongDetailsActivity.class);
+                    Intent intent = new Intent(context, IvoryDetailsActivity.class);
                     intent.putExtra("song", selectedSong);
                     intent.putExtra("key", selectedSongKey);
                     intent.putExtra("user",user);

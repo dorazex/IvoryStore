@@ -1,6 +1,7 @@
 package com.example.IvoryStore;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -187,16 +188,23 @@ public class EmailPasswordActivity extends Activity implements
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            mStatusTextView.setText(getString(R.string.emailpassword_status_fmt,
-                    user.getEmail(), user.isEmailVerified()));
-            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
+            if (!user.isEmailVerified()){
+                mStatusTextView.setText(getString(R.string.emailpassword_status_fmt,
+                        user.getEmail(), user.isEmailVerified()));
+                mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
 
-            findViewById(R.id.email_password_buttons).setVisibility(View.GONE);
-            findViewById(R.id.EmailEditText).setVisibility(View.GONE);
-            findViewById(R.id.PasswordEditText).setVisibility(View.GONE);
-            findViewById(R.id.signed_in_buttons).setVisibility(View.VISIBLE);
+                findViewById(R.id.email_password_buttons).setVisibility(View.GONE);
+                findViewById(R.id.EmailEditText).setVisibility(View.GONE);
+                findViewById(R.id.PasswordEditText).setVisibility(View.GONE);
+                findViewById(R.id.signed_in_buttons).setVisibility(View.VISIBLE);
 
-            findViewById(R.id.EmailVerifyButton).setEnabled(!user.isEmailVerified());
+                findViewById(R.id.EmailVerifyButton).setEnabled(!user.isEmailVerified());
+            }
+            else{
+                Intent intent = new Intent(getApplicationContext(), IvoryStoreMain.class);
+                startActivity(intent);
+                finish();
+            }
         } else {
             mStatusTextView.setText(R.string.signed_out);
             mDetailTextView.setText(null);

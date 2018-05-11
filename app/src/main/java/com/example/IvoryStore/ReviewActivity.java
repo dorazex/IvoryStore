@@ -1,16 +1,10 @@
 package com.example.IvoryStore;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -139,7 +133,7 @@ public class ReviewActivity extends Activity {
                 }
 
 
-                Intent intent = new Intent(getApplicationContext(),SongDetailsActivity.class);
+                Intent intent = new Intent(getApplicationContext(),IvoryDetailsActivity.class);
                 intent.putExtra("song", song);
                 intent.putExtra("key", key);
                 intent.putExtra("user",user);

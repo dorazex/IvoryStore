@@ -149,11 +149,9 @@ public class GoogleSignInActivity extends Activity implements
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
-            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-
-            findViewById(R.id.GoogleSignInButton).setVisibility(View.GONE);
-            findViewById(R.id.GoogleSignOutButton).setVisibility(View.VISIBLE);
+            Intent intent = new Intent(getApplicationContext(), IvoryStoreMain.class);
+            startActivity(intent);
+            finish();
         } else {
             mStatusTextView.setText(R.string.signed_out);
             mDetailTextView.setText(null);
