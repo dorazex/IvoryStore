@@ -39,7 +39,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textViewArtist"
+                android:id="@+id/textViewElephantAge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -52,7 +52,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textViewName" />
 
             <TextView
-                android:id="@+id/textViewGenre"
+                android:id="@+id/textViewOrigin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -60,8 +60,8 @@
                 android:textColor="@android:color/holo_orange_dark"
                 android:textStyle="bold"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textViewArtist"
-                app:layout_constraintTop_toBottomOf="@+id/textViewArtist" />
+                app:layout_constraintStart_toStartOf="@+id/textViewElephantAge"
+                app:layout_constraintTop_toBottomOf="@+id/textViewElephantAge" />
 
             <Button
                 android:id="@+id/buttonBuyPlay"
