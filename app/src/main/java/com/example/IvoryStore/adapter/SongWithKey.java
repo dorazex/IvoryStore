@@ -1,15 +1,15 @@
 package com.example.IvoryStore.adapter;
 
-import com.example.IvoryStore.model.Song;
+import com.example.IvoryStore.model.IvoryProduct;
 
 
 public class SongWithKey {
     private String key;
-    private Song song;
+    private IvoryProduct ivoryProduct;
 
-    public SongWithKey(String key, Song song) {
+    public SongWithKey(String key, IvoryProduct ivoryProduct) {
         this.key = key;
-        this.song = song;
+        this.ivoryProduct = ivoryProduct;
     }
 
     public String getKey() {
@@ -20,11 +20,11 @@ public class SongWithKey {
         this.key = key;
     }
 
-    public Song getSong() {
-        return song;
+    public IvoryProduct getIvoryProduct() {
+        return ivoryProduct;
     }
 
-    public void setSong(Song song) {
-        this.song = song;
+    public void setIvoryProduct(IvoryProduct ivoryProduct) {
+        this.ivoryProduct = ivoryProduct;
     }
 }

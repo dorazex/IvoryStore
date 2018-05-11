@@ -14,11 +14,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.IvoryStore.IvoryDetailsActivity;
+import com.example.IvoryStore.model.IvoryProduct;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.example.IvoryStore.R;
-import com.example.IvoryStore.model.Song;
 import com.example.IvoryStore.model.User;
 
 import java.util.Iterator;
@@ -56,35 +56,35 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
 
         Log.e(TAG,"onBindViewHolder() >> " + position);
 
-        Song song = songsList.get(position).getSong();
+        IvoryProduct ivoryProduct = songsList.get(position).getIvoryProduct();
         String songKey = songsList.get(position).getKey();
 
 
         StorageReference thumbRef = FirebaseStorage
                 .getInstance()
                 .getReference()
-                .child("thumbs/"+song.getThumbImage());
+                .child("thumbs/"+ ivoryProduct.getThumbImage());
         // Load the image using Glide
         Glide.with(holder.getContext())
                 .using(new FirebaseImageLoader())
                 .load(thumbRef)
                 .into(holder.getThumbImage());
 
-        holder.setSelectedSong(song);
+        holder.setSelectedIvoryProduct(ivoryProduct);
         holder.setSelectedSongKey(songKey);
-        holder.getName().setText(song.getName());
-        holder.setSongFile(song.getFile());
-        holder.getGenre().setText(song.getGenre());
-        holder.getArtist().setText(song.getArtist());
+        holder.getName().setText(ivoryProduct.getName());
+        holder.setSongFile(ivoryProduct.getFile());
+        holder.getGenre().setText(ivoryProduct.getGenre());
+        holder.getArtist().setText(ivoryProduct.getArtist());
      
-        holder.setThumbFile(song.getThumbImage());
-        if (song.getReviewsCount() >0) {
-            holder.getReviewsCount().setText("("+song.getReviewsCount()+")");
-            holder.getRating().setRating((float)(song.getRating() / song.getReviewsCount()));
+        holder.setThumbFile(ivoryProduct.getThumbImage());
+        if (ivoryProduct.getReviewsCount() >0) {
+            holder.getReviewsCount().setText("("+ ivoryProduct.getReviewsCount()+")");
+            holder.getRating().setRating((float)(ivoryProduct.getRating() / ivoryProduct.getReviewsCount()));
         }
-        //Check if the user already purchased the song if set the text to Play
+        //Check if the user already purchased the ivoryProduct if set the text to Play
         //If not to BUY $X
-        holder.getPrice().setText("$"+song.getPrice());
+        holder.getPrice().setText("$"+ ivoryProduct.getPrice());
 
         Iterator i = user.getMySongs().iterator();
         while (i.hasNext()) {
@@ -117,7 +117,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
         private String thumbFile;
         private Context context;
         private RatingBar rating;
-        private Song selectedSong;
+        private IvoryProduct selectedIvoryProduct;
         private String selectedSongKey;
 
         public SongViewHolder(Context context, View view) {
@@ -141,11 +141,11 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
                 @Override
                 public void onClick(View view) {
 
-                    Log.e(TAG, "CardView.onClick() >> name=" + selectedSong.getName());
+                    Log.e(TAG, "CardView.onClick() >> name=" + selectedIvoryProduct.getName());
 
                     Context context = view.getContext();
                     Intent intent = new Intent(context, IvoryDetailsActivity.class);
-                    intent.putExtra("song", selectedSong);
+                    intent.putExtra("song", selectedIvoryProduct);
                     intent.putExtra("key", selectedSongKey);
                     intent.putExtra("user",user);
                     context.startActivity(intent);
@@ -189,8 +189,8 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
             return rating;
         }
 
-        public void setSelectedSong(Song selectedSong) {
-            this.selectedSong = selectedSong;
+        public void setSelectedIvoryProduct(IvoryProduct selectedIvoryProduct) {
+            this.selectedIvoryProduct = selectedIvoryProduct;
         }
 
         public void setSelectedSongKey(String selectedSongKey) {

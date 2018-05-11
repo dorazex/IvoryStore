@@ -20,7 +20,7 @@
         tools:layout_editor_absoluteY="0dp">
 
         <TextView
-            android:id="@+id/editTextUserID"
+            android:id="@+id/textViewUserID"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="3"

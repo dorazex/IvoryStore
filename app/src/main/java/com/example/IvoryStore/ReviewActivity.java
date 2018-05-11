@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.example.IvoryStore.model.IvoryProduct;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,13 +18,12 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.example.IvoryStore.model.Review;
-import com.example.IvoryStore.model.Song;
 import com.example.IvoryStore.model.User;
 
 public class ReviewActivity extends Activity {
 
     private final String TAG = "ReviewActivity";
-    private Song song;
+    private IvoryProduct ivoryProduct;
     private String key;
     private User user;
     private int prevRating = -1;
@@ -41,7 +41,7 @@ public class ReviewActivity extends Activity {
         setContentView(R.layout.activity_review);
 
         key = getIntent().getStringExtra("key");
-        song = getIntent().getParcelableExtra("song");
+        ivoryProduct = getIntent().getParcelableExtra("ivoryProduct");
         user = getIntent().getParcelableExtra("user");
 
         userReview = findViewById(R.id.new_user_review);
@@ -92,23 +92,23 @@ public class ReviewActivity extends Activity {
                 Log.e(TAG, "doTransaction() >>" );
 
 
-                Song song = mutableData.getValue(Song.class);
+                IvoryProduct ivoryProduct = mutableData.getValue(IvoryProduct.class);
 
-                if (song == null ) {
-                    Log.e(TAG, "doTransaction() << song is null" );
+                if (ivoryProduct == null ) {
+                    Log.e(TAG, "doTransaction() << ivoryProduct is null" );
                     return Transaction.success(mutableData);
                 }
 
                 if (prevRating == -1) {
                     // Increment the review count and rating only in case the user enters a new review
-                    song.incrementReviewCount();
-                    song.incrementRating((int)userRating.getRating());
+                    ivoryProduct.incrementReviewCount();
+                    ivoryProduct.incrementRating((int)userRating.getRating());
                 } else{
-                    song.incrementRating((int)userRating.getRating() - prevRating);
+                    ivoryProduct.incrementRating((int)userRating.getRating() - prevRating);
                 }
 
-                mutableData.setValue(song);
-                Log.e(TAG, "doTransaction() << song was set");
+                mutableData.setValue(ivoryProduct);
+                Log.e(TAG, "doTransaction() << ivoryProduct was set");
                 return Transaction.success(mutableData);
 
             }
@@ -134,7 +134,7 @@ public class ReviewActivity extends Activity {
 
 
                 Intent intent = new Intent(getApplicationContext(),IvoryDetailsActivity.class);
-                intent.putExtra("song", song);
+                intent.putExtra("ivoryProduct", ivoryProduct);
                 intent.putExtra("key", key);
                 intent.putExtra("user",user);
                 startActivity(intent);

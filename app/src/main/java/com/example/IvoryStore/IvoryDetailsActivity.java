@@ -29,7 +29,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.example.IvoryStore.adapter.ReviewsAdapter;
 import com.example.IvoryStore.model.Review;
-import com.example.IvoryStore.model.Song;
+import com.example.IvoryStore.model.IvoryProduct;
 import com.example.IvoryStore.model.User;
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ import java.util.List;
 public class IvoryDetailsActivity extends AppCompatActivity {
 
     public final String TAG = "IvoryDetailsActivity";
-    private Song song;
+    private IvoryProduct ivoryProduct;
     private String key;
     private User user;
 
@@ -63,7 +63,7 @@ public class IvoryDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ivory_details);
 
         key = getIntent().getStringExtra("key");
-        song = getIntent().getParcelableExtra("song");
+        ivoryProduct = getIntent().getParcelableExtra("ivoryProduct");
         user = getIntent().getParcelableExtra("user");
 
         mediaPlayer = new MediaPlayer();
@@ -72,7 +72,7 @@ public class IvoryDetailsActivity extends AppCompatActivity {
         StorageReference thumbRef = FirebaseStorage
                 .getInstance()
                 .getReference()
-                .child("thumbs/" + song.getThumbImage());
+                .child("thumbs/" + ivoryProduct.getThumbImage());
 
         // Load the image using Glide
         Glide.with(this)
@@ -80,12 +80,12 @@ public class IvoryDetailsActivity extends AppCompatActivity {
                 .load(thumbRef)
                 .into((ImageView) findViewById(R.id.imageViewSong));
 
-        ((TextView) findViewById(R.id.textViewName)).setText(song.getName());
-        ((TextView) findViewById(R.id.textViewArtist)).setText(song.getArtist());
-        ((TextView) findViewById(R.id.textViewGenre)).setText(song.getGenre());
+        ((TextView) findViewById(R.id.textViewName)).setText(ivoryProduct.getName());
+        ((TextView) findViewById(R.id.textViewArtist)).setText(ivoryProduct.getArtist());
+        ((TextView) findViewById(R.id.textViewGenre)).setText(ivoryProduct.getGenre());
         buyPlay = ((Button) findViewById(R.id.buttonBuyPlay));
 
-        buyPlay.setText("BUY $" + song.getPrice());
+        buyPlay.setText("BUY $" + ivoryProduct.getPrice());
         Iterator i = user.getMySongs().iterator();
         while (i.hasNext()) {
             if (i.next().equals(key)) {
@@ -101,18 +101,18 @@ public class IvoryDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Log.e(TAG, "buyPlay.onClick() >> file=" + song.getName());
+                Log.e(TAG, "buyPlay.onClick() >> file=" + ivoryProduct.getName());
 
                 if (songWasPurchased) {
-                    Log.e(TAG, "buyPlay.onClick() >> Playing purchased song");
-                    //User purchased the song so he can play it
-                    playCurrentSong(song.getFile());
+                    Log.e(TAG, "buyPlay.onClick() >> Playing purchased ivoryProduct");
+                    //User purchased the ivoryProduct so he can play it
+                    playCurrentSong(ivoryProduct.getFile());
 
                 } else {
-                    //Purchase the song.
-                    Log.e(TAG, "buyPlay.onClick() >> Purchase the song");
+                    //Purchase the ivoryProduct.
+                    Log.e(TAG, "buyPlay.onClick() >> Purchase the ivoryProduct");
                     user.getMySongs().add(key);
-                    user.upgdateTotalPurchase(song.getPrice());
+                    user.upgdateTotalPurchase(ivoryProduct.getPrice());
                     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
                     userRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user);
                     songWasPurchased = true;
@@ -132,7 +132,7 @@ public class IvoryDetailsActivity extends AppCompatActivity {
 
 
                    Intent intent = new Intent(getApplicationContext(),ReviewActivity.class);
-                   intent.putExtra("song", song);
+                   intent.putExtra("ivoryProduct", ivoryProduct);
                    intent.putExtra("key", key);
                    intent.putExtra("user",user);
 
@@ -191,7 +191,7 @@ public class IvoryDetailsActivity extends AppCompatActivity {
         Log.e(TAG, "playCurrentSong() >> songFile=" + songFile);
 
         if (stopPlayingCurrentSong()) {
-            Log.e(TAG, "playCurrentSong() << Stop playing current song");
+            Log.e(TAG, "playCurrentSong() << Stop playing current ivoryProduct");
             return;
         }
 
