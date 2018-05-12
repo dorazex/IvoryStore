@@ -1,9 +1,14 @@
 package com.example.IvoryStore.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +20,9 @@ import com.bumptech.glide.Glide;
 import com.example.IvoryStore.IvoryDetailsActivity;
 import com.example.IvoryStore.model.IvoryProduct;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.example.IvoryStore.R;
@@ -50,7 +58,7 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
     }
 
     @Override
-    public void onBindViewHolder(IvoryProductViewHolder holder, int position) {
+    public void onBindViewHolder(final IvoryProductViewHolder holder, int position) {
 
         Log.e(TAG,"onBindViewHolder() >> " + position);
 
@@ -62,11 +70,33 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
                 .getInstance()
                 .getReference()
                 .child("product_image/"+ ivoryProduct.getImage());
-        // Load the imageView using Glide
-        Glide.with(holder.getContext())
-                .using(new FirebaseImageLoader())
-                .load(thumbRef)
-                .into(holder.getImageView());
+
+        StorageReference mImageRef = thumbRef;
+        final long ONE_MEGABYTE = 1024 * 1024;
+        mImageRef.getBytes(ONE_MEGABYTE)
+                .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        Bitmap bm = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        DisplayMetrics dm = new DisplayMetrics();
+//                        getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+                        holder.getImageView().setMinimumHeight(dm.heightPixels);
+                        holder.getImageView().setMinimumWidth(dm.widthPixels);
+                        holder.getImageView().setImageBitmap(bm);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
+//        // Load the imageView using Glide
+//        Glide.with(holder.getContext())
+//                .using(new FirebaseImageLoader())
+//                .load(thumbRef)
+//                .into(holder.getImageView());
 
         holder.setSelectedIvoryProduct(ivoryProduct);
         holder.setSelectedProductKey(productKey);
@@ -82,13 +112,13 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
         //If not to BUY $X
         holder.getOrigin().setText("$"+ ivoryProduct.getPrice());
 
-//        Iterator i = user.getProducts().iterator();
-//        while (i.hasNext()) {
-//            if (i.next().equals(productKey)) {
-//                holder.getOrigin().setTextColor(R.color.colorLightGrey);
-//                break;
-//            }
-//        }
+        Iterator i = user.getProducts().iterator();
+        while (i.hasNext()) {
+            if (i.next().equals(productKey)) {
+                holder.getOrigin().setTextColor(R.color.colorLightGrey);
+                break;
+            }
+        }
 
         Log.e(TAG,"onBindViewHolder() << "+ position);
     }

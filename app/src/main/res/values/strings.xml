@@ -15,7 +15,7 @@
     <string name="google_sign_in_button_text">Google</string>
     <string name="facebook_sign_in_button_text">Facebook</string>
     <string name="anonymous_sign_in_button_text">Anonymous</string>
-    <string name="status_default">Status</string>
+    <string name="status_default">By entering the app using Facebook Login you agree to share your E-Mail address.We will not use it publicly or post on your behalf.</string>
     <string name="detail_default">Detail</string>
     <string name="sign_in_button_text">Sign In</string>
     <string name="sign_out_button_text">Sign Out</string>

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.IvoryStore.model.User;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -23,6 +24,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Demonstrate Firebase Authentication using a Facebook access token.
@@ -33,7 +36,6 @@ public class FacebookSignInActivity extends Activity implements
     private static final String TAG = "FacebookLogin";
 
     private TextView mStatusTextView;
-    private TextView mDetailTextView;
 
     // [START declare_auth]
     private FirebaseAuth mAuth;
@@ -41,20 +43,24 @@ public class FacebookSignInActivity extends Activity implements
 
     private CallbackManager mCallbackManager;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_facebook_sign_in);
-
-        // Views
-        mStatusTextView = findViewById(R.id.FacebookStatusTextView);
-        mDetailTextView = findViewById(R.id.FacebookDetailTextView);
-        findViewById(R.id.FacebookSignOutButton).setOnClickListener(this);
 
         // [START initialize_auth]
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
+
+        updateUI(mAuth.getCurrentUser());
+
+        setContentView(R.layout.activity_facebook_sign_in);
+
+        // Views
+        mStatusTextView = findViewById(R.id.FacebookStatusTextView);
+//        findViewById(R.id.FacebookSignOutButton).setOnClickListener(this);
+
 
         // [START initialize_fblogin]
         // Initialize Facebook Login button
@@ -120,6 +126,7 @@ public class FacebookSignInActivity extends Activity implements
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            createNewUser();
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -134,6 +141,23 @@ public class FacebookSignInActivity extends Activity implements
     }
     // [END auth_with_facebook]
 
+    private void createNewUser() {
+
+        Log.e(TAG, "createNewUser() >>");
+
+        FirebaseUser fbUser = mAuth.getCurrentUser();
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
+
+        if (fbUser == null) {
+            Log.e(TAG, "createNewUser() << Error user is null");
+            return;
+        }
+
+        userRef.child(fbUser.getUid()).setValue(new User(fbUser.getEmail(),0,null));
+
+        Log.e(TAG, "createNewUser() <<");
+    }
+
     public void signOut() {
         mAuth.signOut();
         LoginManager.getInstance().logOut();
@@ -144,22 +168,17 @@ public class FacebookSignInActivity extends Activity implements
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             Intent intent = new Intent(getApplicationContext(), IvoryStoreMain.class);
+            intent.putExtra("sign_in_class", this.getClass().getSimpleName());
             startActivity(intent);
             finish();
-        } else {
-            mStatusTextView.setText(R.string.signed_out);
-            mDetailTextView.setText(null);
-
-            findViewById(R.id.FacebookSignInButton).setVisibility(View.VISIBLE);
-            findViewById(R.id.FacebookSignOutButton).setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.FacebookSignOutButton) {
-            signOut();
-        }
+//        if (i == R.id.FacebookSignOutButton) {
+//            signOut();
+//        }
     }
 }

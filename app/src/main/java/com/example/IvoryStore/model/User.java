@@ -10,32 +10,27 @@ import java.util.List;
 public class User implements Parcelable {
 
     private String email;
-//    private int totalPurchase;
-//    private List<String> products = new ArrayList<>();
+    private int totalPurchase;
+    private List<String> products = new ArrayList<>();
 
     public User() {
     }
 
-    public User(String email) {
+    public User(String email, int totalPurchase, List<String> products) {
         this.email = email;
-//        this.totalPurchase = totalPurchase;
-//        this.products = products;
+        this.totalPurchase = totalPurchase;
+        this.products = products;
     }
 
     public String getEmail() {
         return email;
     }
-
+    public int getTotalPurchase() { return totalPurchase; }
+    public List<String> getProducts() { return products; }
 
     public void updateTotalPurchase(int newPurcahsePrice) {
-        return;
+        this.totalPurchase += newPurcahsePrice;
     }
-
-//    public List<String> getProducts() {
-//        return new ArrayList<String>() {
-//        };
-//    }
-
 
     @Override
     public int describeContents() {
@@ -45,12 +40,12 @@ public class User implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(email);
-//        parcel.writeList(products);
+        parcel.writeList(products);
     }
 
     public User(Parcel in) {
         this.email = in.readString();
-//        in.readList(products,String.class.getClassLoader());
+        in.readList(products,String.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {

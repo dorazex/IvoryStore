@@ -147,7 +147,7 @@ public class GoogleSignInActivity extends Activity implements
             return;
         }
 
-        userRef.child(fbUser.getUid()).setValue(new User(fbUser.getEmail()));
+        userRef.child(fbUser.getUid()).setValue(new User(fbUser.getEmail(),0,null));
 
         Log.e(TAG, "createNewUser() <<");
     }
@@ -177,6 +177,7 @@ public class GoogleSignInActivity extends Activity implements
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             Intent intent = new Intent(getApplicationContext(), IvoryStoreMain.class);
+            intent.putExtra("sign_in_class", this.getClass().getSimpleName());
             startActivity(intent);
             finish();
         } else {

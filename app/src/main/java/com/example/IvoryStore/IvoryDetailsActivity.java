@@ -75,14 +75,14 @@ public class IvoryDetailsActivity extends AppCompatActivity {
         buyPlay = ((Button) findViewById(R.id.buttonBuyPlay));
 
         buyPlay.setText("BUY $" + ivoryProduct.getPrice());
-//        Iterator i = user.getProducts().iterator();
-//        while (i.hasNext()) {
-//            if (i.next().equals(key)) {
-//                songWasPurchased = true;
-//                buyPlay.setText("PLAY");
-//                break;
-//            }
-//        }
+        Iterator i = user.getProducts().iterator();
+        while (i.hasNext()) {
+            if (i.next().equals(key)) {
+                songWasPurchased = true;
+                buyPlay.setText("PLAY");
+                break;
+            }
+        }
 
 
         buyPlay.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +100,7 @@ public class IvoryDetailsActivity extends AppCompatActivity {
                 } else {
                     //Purchase the ivoryProduct.
                     Log.e(TAG, "buyPlay.onClick() >> Purchase the ivoryProduct");
-//                    user.getProducts().add(key);
+                    user.getProducts().add(key);
                     user.updateTotalPurchase(ivoryProduct.getPrice());
                     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
                     userRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user);

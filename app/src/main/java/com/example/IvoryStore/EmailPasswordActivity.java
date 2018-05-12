@@ -11,11 +11,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.IvoryStore.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class EmailPasswordActivity extends Activity implements
         View.OnClickListener {
@@ -79,6 +82,7 @@ public class EmailPasswordActivity extends Activity implements
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            createNewUser();
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -91,6 +95,23 @@ public class EmailPasswordActivity extends Activity implements
                     }
                 });
         // [END create_user_with_email]
+    }
+
+    private void createNewUser() {
+
+        Log.e(TAG, "createNewUser() >>");
+
+        FirebaseUser fbUser = mAuth.getCurrentUser();
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
+
+        if (fbUser == null) {
+            Log.e(TAG, "createNewUser() << Error user is null");
+            return;
+        }
+
+        userRef.child(fbUser.getUid()).setValue(new User(fbUser.getEmail(),0,null));
+
+        Log.e(TAG, "createNewUser() <<");
     }
 
     private void signIn(String email, String password) {
@@ -188,23 +209,10 @@ public class EmailPasswordActivity extends Activity implements
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            if (!user.isEmailVerified()){
-                mStatusTextView.setText(getString(R.string.emailpassword_status_fmt,
-                        user.getEmail(), user.isEmailVerified()));
-                mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-
-                findViewById(R.id.email_password_buttons).setVisibility(View.GONE);
-                findViewById(R.id.EmailEditText).setVisibility(View.GONE);
-                findViewById(R.id.PasswordEditText).setVisibility(View.GONE);
-                findViewById(R.id.signed_in_buttons).setVisibility(View.VISIBLE);
-
-                findViewById(R.id.EmailVerifyButton).setEnabled(!user.isEmailVerified());
-            }
-            else{
-                Intent intent = new Intent(getApplicationContext(), IvoryStoreMain.class);
-                startActivity(intent);
-                finish();
-            }
+            Intent intent = new Intent(getApplicationContext(), IvoryStoreMain.class);
+            intent.putExtra("sign_in_class", this.getClass().getSimpleName());
+            startActivity(intent);
+            finish();
         } else {
             mStatusTextView.setText(R.string.signed_out);
             mDetailTextView.setText(null);

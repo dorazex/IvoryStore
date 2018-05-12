@@ -1,17 +1,28 @@
 package com.example.IvoryStore;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.IvoryStore.model.IvoryProduct;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -33,6 +44,7 @@ public class IvoryStoreMain extends Activity {
     private final String TAG = "IvoryStoreMain";
     private DatabaseReference allSongsRef;
     private DatabaseReference myUserRef;
+    private String signInClassName;
 
 
     private List<IvoryProductWithKey> songsList = new ArrayList<>();
@@ -49,8 +61,10 @@ public class IvoryStoreMain extends Activity {
         Log.e(TAG, "onCreate() >>");
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ivory_store_main);
+        signInClassName = getIntent().getExtras().getString("sign_in_class");
 
+
+        setContentView(R.layout.activity_ivory_store_main);
 
         recyclerView = (RecyclerView) findViewById(R.id.songs_list);
         recyclerView.setHasFixedSize(true);
@@ -87,8 +101,33 @@ public class IvoryStoreMain extends Activity {
 
             Log.e(TAG, "onCreate() <<");
         } else {
+            myUser = new User("anonymous@ivorystore.com", 0, new ArrayList<String>());
             getAllSongs();
         }
+
+        Button signOutButton = (Button) findViewById(R.id.buttonSignOut);
+        signOutButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                switch (signInClassName){
+                    case "GoogleSignInActivity":
+                        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
+                        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(getBaseContext(), gso);
+                        mGoogleSignInClient.signOut();
+                        break;
+                    case "FacebookSignInActivity":
+                        LoginManager.getInstance().logOut();
+                        break;
+                    default:
+                        break;
+                }
+
+                Intent intent = new Intent(getBaseContext(), SignInActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void getAllSongs() {
@@ -133,6 +172,7 @@ public class IvoryStoreMain extends Activity {
         allSongsRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String previousChildName){
+
 
                 Log.e(TAG, "onChildAdded(Songs) >> " + snapshot.getKey());
 
