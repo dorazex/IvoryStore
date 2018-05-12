@@ -105,7 +105,7 @@ public class IvoryStoreMain extends Activity {
     }
     private void getAllSongsUsingValueListenrs() {
 
-        allSongsRef = FirebaseDatabase.getInstance().getReference("Songs");
+        allSongsRef = FirebaseDatabase.getInstance().getReference("Products");
 
         allSongsRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -128,7 +128,7 @@ public class IvoryStoreMain extends Activity {
     }
     private void getAllSongsUsingChildListenrs() {
 
-        allSongsRef = FirebaseDatabase.getInstance().getReference("Songs");
+        allSongsRef = FirebaseDatabase.getInstance().getReference("Products");
 
         allSongsRef.addChildEventListener(new ChildEventListener() {
             @Override

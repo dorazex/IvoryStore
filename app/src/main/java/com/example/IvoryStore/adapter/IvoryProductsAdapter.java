@@ -82,13 +82,13 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
         //If not to BUY $X
         holder.getOrigin().setText("$"+ ivoryProduct.getPrice());
 
-        Iterator i = user.getUserProducts().iterator();
-        while (i.hasNext()) {
-            if (i.next().equals(productKey)) {
-                holder.getOrigin().setTextColor(R.color.colorLightGrey);
-                break;
-            }
-        }
+//        Iterator i = user.getProducts().iterator();
+//        while (i.hasNext()) {
+//            if (i.next().equals(productKey)) {
+//                holder.getOrigin().setTextColor(R.color.colorLightGrey);
+//                break;
+//            }
+//        }
 
         Log.e(TAG,"onBindViewHolder() << "+ position);
     }
@@ -122,7 +122,7 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
             ivoryProductCardView = (CardView) view.findViewById(R.id.card_view_product);
             imageView = (ImageView) view.findViewById(R.id.product_image);
             name = (TextView) view.findViewById(R.id.product_name);
-            elephantAge = (TextView) view.findViewById(R.id.product_reviewer_mail);
+            elephantAge = (TextView) view.findViewById(R.id.product_elephant_age);
             deathReason = (TextView) view.findViewById(R.id.product_death_reason);
             origin = (TextView) view.findViewById(R.id.product_origin);
             reviewsCount = (TextView) view.findViewById(R.id.product_review_count);

@@ -10,16 +10,16 @@ import java.util.List;
 public class User implements Parcelable {
 
     private String email;
-    private int totalPurchase;
-    private List<String> mySongs = new ArrayList<>();
+//    private int totalPurchase;
+//    private List<String> products = new ArrayList<>();
 
     public User() {
     }
 
-    public User(String email, int totalPurchase, List<String> mySongs) {
+    public User(String email) {
         this.email = email;
-        this.totalPurchase = totalPurchase;
-        this.mySongs = mySongs;
+//        this.totalPurchase = totalPurchase;
+//        this.products = products;
     }
 
     public String getEmail() {
@@ -27,13 +27,14 @@ public class User implements Parcelable {
     }
 
 
-    public void upgdateTotalPurchase(int newPurcahsePrice) {
-        this.totalPurchase += newPurcahsePrice;
+    public void updateTotalPurchase(int newPurcahsePrice) {
+        return;
     }
 
-    public List<String> getUserProducts() {
-        return mySongs;
-    }
+//    public List<String> getProducts() {
+//        return new ArrayList<String>() {
+//        };
+//    }
 
 
     @Override
@@ -44,12 +45,12 @@ public class User implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(email);
-        parcel.writeList(mySongs);
+//        parcel.writeList(products);
     }
 
     public User(Parcel in) {
         this.email = in.readString();
-        in.readList(mySongs,String.class.getClassLoader());
+//        in.readList(products,String.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {

@@ -46,7 +46,7 @@ public class ReviewActivity extends Activity {
         userReview = findViewById(R.id.new_user_review);
 
 
-        songRef = FirebaseDatabase.getInstance().getReference("Songs/" + key);
+        songRef = FirebaseDatabase.getInstance().getReference("Products/" + key);
 
         songRef.child("/reviews/" +  FirebaseAuth.getInstance().getCurrentUser().getUid()).
                 addListenerForSingleValueEvent(new ValueEventListener() {

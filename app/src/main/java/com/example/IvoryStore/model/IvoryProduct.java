@@ -51,8 +51,8 @@ public class IvoryProduct implements Parcelable {
         this.origin = origin;
     }
 
-    public int getElephantAge() {
-        return elephantAge;
+    public String getElephantAge() {
+        return Integer.toString(elephantAge);
     }
     public void setElephantAge(int elephantAge) {
         this.elephantAge = elephantAge;
