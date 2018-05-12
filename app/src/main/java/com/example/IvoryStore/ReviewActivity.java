@@ -29,7 +29,6 @@ public class ReviewActivity extends Activity {
     private int prevRating = -1;
 
     private TextView userReview;
-    private RatingBar userRating;
     private DatabaseReference songRef;
 
     @Override
@@ -45,7 +44,6 @@ public class ReviewActivity extends Activity {
         user = getIntent().getParcelableExtra("user");
 
         userReview = findViewById(R.id.new_user_review);
-        userRating = findViewById(R.id.new_user_rating);
 
 
         songRef = FirebaseDatabase.getInstance().getReference("Songs/" + key);
@@ -60,8 +58,6 @@ public class ReviewActivity extends Activity {
                 Review review = snapshot.getValue(Review.class);
                 if (review != null) {
                     userReview.setText(review.getUserReview());
-                    userRating.setRating(review.getUserRating());
-                    prevRating = review.getUserRating();
                 }
 
                 Log.e(TAG, "onDataChange(Review) <<");
@@ -102,9 +98,7 @@ public class ReviewActivity extends Activity {
                 if (prevRating == -1) {
                     // Increment the review count and rating only in case the user enters a new review
                     ivoryProduct.incrementReviewCount();
-                    ivoryProduct.incrementRating((int)userRating.getRating());
                 } else{
-                    ivoryProduct.incrementRating((int)userRating.getRating() - prevRating);
                 }
 
                 mutableData.setValue(ivoryProduct);
@@ -126,7 +120,6 @@ public class ReviewActivity extends Activity {
                 if (committed) {
                     Review review = new Review(
                             userReview.getText().toString(),
-                            (int)userRating.getRating(),
                             user.getEmail());
 
                     songRef.child("/reviews/" + FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(review);

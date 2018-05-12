@@ -46,7 +46,6 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
 
         holder.getUserMail().setText(review.getUserEmail());
         holder.getUserReview().setText(review.getUserReview());
-        holder.getUserRating().setRating(review.getUserRating());
 
         Log.e(TAG,"onBindViewHolder() << "+ position);
     }
@@ -61,14 +60,12 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
 
         private TextView userReview;
         private TextView userMail;
-        private RatingBar userRating;
 
         public ReviewViewHolder(Context context, View view) {
 
             super(view);
             userReview = (TextView) view.findViewById(R.id.user_review);
             userMail = (TextView) view.findViewById(R.id.user_mail);
-            userRating = (RatingBar) view.findViewById(R.id.user_rating);
 
         }
 
@@ -88,12 +85,5 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
             this.userMail = userMail;
         }
 
-        public RatingBar getUserRating() {
-            return userRating;
-        }
-
-        public void setUserRating(RatingBar userRating) {
-            this.userRating = userRating;
-        }
     }
 }

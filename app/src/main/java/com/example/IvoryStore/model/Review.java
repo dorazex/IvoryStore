@@ -11,7 +11,7 @@ public class Review {
     private String userReview;
     private String userEmail;
 
-    public Review(String userReview, int userRating, String userEmail) {
+    public Review(String userReview, String userEmail) {
         this.userReview = userReview;
         this.userEmail = userEmail;
     }
