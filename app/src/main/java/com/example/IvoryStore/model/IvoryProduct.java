@@ -13,11 +13,12 @@ public class IvoryProduct implements Parcelable {
     private String deathReason;
     private String origin;
     private int elephantAge;
-    private String image;
     private int weight;
     private int price;
+    private String image;
+    private List<Review> reviews;
 
-    public IvoryProduct(String name, String deathReason, String origin, int elephantAge, String image, int weight, int price) {
+    public IvoryProduct(String name, String deathReason, String origin, int elephantAge, String image, int weight, int price, List<Review> reviews) {
         this.name = name;
         this.deathReason = deathReason;
         this.origin = origin;
@@ -25,6 +26,7 @@ public class IvoryProduct implements Parcelable {
         this.image = image;
         this.weight = weight;
         this.price = price;
+        this.reviews = reviews;
     }
 
     public IvoryProduct() {
@@ -38,12 +40,13 @@ public class IvoryProduct implements Parcelable {
         this.image = in.readString();
         this.weight = in.readInt();
         this.price = in.readInt();
+        in.readTypedList(this.reviews, Review.CREATOR);
+
     }
 
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -51,7 +54,6 @@ public class IvoryProduct implements Parcelable {
     public String getDeathReason() {
         return deathReason;
     }
-
     public void setDeathReason(String deathReason) {
         this.deathReason = deathReason;
     }
@@ -59,7 +61,6 @@ public class IvoryProduct implements Parcelable {
     public String getOrigin() {
         return origin;
     }
-
     public void setOrigin(String genere) {
         this.origin = origin;
     }
@@ -67,7 +68,6 @@ public class IvoryProduct implements Parcelable {
     public int getElephantAge() {
         return elephantAge;
     }
-
     public void setElephantAge(int elephantAge) {
         this.elephantAge = elephantAge;
     }
@@ -75,7 +75,6 @@ public class IvoryProduct implements Parcelable {
     public String getImage() {
         return image;
     }
-
     public void setImage(String image) {
         this.image = image;
     }
@@ -83,7 +82,6 @@ public class IvoryProduct implements Parcelable {
     public int getWeight() {
         return weight;
     }
-
     public void setWeight(int weight) {
         this.weight = weight;
     }
@@ -91,7 +89,6 @@ public class IvoryProduct implements Parcelable {
     public int getPrice() {
         return price;
     }
-
     public void setPrice(int price) {
         this.price = price;
     }
@@ -137,8 +134,5 @@ public class IvoryProduct implements Parcelable {
             return new IvoryProduct[size];
         }
     };
-
-    ;
-
 
 }
