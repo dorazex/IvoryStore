@@ -34,6 +34,7 @@ import com.google.firebase.storage.StorageReference;
 import com.example.IvoryStore.R;
 import com.example.IvoryStore.model.User;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +44,7 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
     private final String TAG = "IvoryProductsAdapter";
 
     private List<IvoryProductWithKey> productsList;
-    private Map<String, Integer> reviewsCountMap;
+    private HashMap<String, Integer> reviewsCountMap;
 
     private User user;
 
@@ -51,8 +52,33 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
 
         this.productsList = productsList;
         this.user = user;
-        this.reviewsCountMap = new Map<String, Integer>() {
-        }
+        this.reviewsCountMap = new HashMap<String, Integer>() {};
+    }
+
+    private void populateReviewsCountMap(String prodKey){
+        final String productKey = prodKey;
+        DatabaseReference productReviewsRef = FirebaseDatabase.getInstance().getReference(
+                "Products/" + productKey +"/reviews");
+        productReviewsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+
+                Log.e(TAG, "onDataChange() >> Products/" + productKey);
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    reviewsCountMap.put(productKey, reviewsCountMap.get(productKey) + 1);
+                }
+                Log.e(TAG, "onDataChange(Review) <<");
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+                Log.e(TAG, "onCancelled(Review) >>" + databaseError.getMessage());
+            }
+        });
+
     }
 
     @Override
@@ -74,6 +100,8 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
 
         final IvoryProduct ivoryProduct = productsList.get(position).getIvoryProduct();
         final String productKey = productsList.get(position).getKey();
+
+//        populateReviewsCountMap(productKey);
 
 
         StorageReference thumbRef = FirebaseStorage
@@ -102,12 +130,6 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
             }
         });
 
-//        // Load the imageView using Glide
-//        Glide.with(holder.getContext())
-//                .using(new FirebaseImageLoader())
-//                .load(thumbRef)
-//                .into(holder.getImageView());
-
         holder.setSelectedIvoryProduct(ivoryProduct);
         holder.setSelectedProductKey(productKey);
         holder.getName().setText(ivoryProduct.getName());
@@ -115,9 +137,9 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
         holder.getElephantAge().setText(Integer.toString(ivoryProduct.getElephantAge()));
         holder.setImage(ivoryProduct.getImage());
 
-        reviewsCountMap.put(productKey, 0);
+        if (reviewsCountMap.get(productKey)==null) reviewsCountMap.put(productKey, 0);
         DatabaseReference productReviewsRef = FirebaseDatabase.getInstance().getReference("Products/" + productKey +"/reviews");
-        productReviewsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        productReviewsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
 
@@ -126,6 +148,11 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     reviewsCountMap.put(productKey, reviewsCountMap.get(productKey) + 1);
                 }
+                if (reviewsCountMap.get(productKey) > 0) {
+                    holder.getReviewsCount().setText("("+ reviewsCountMap.get(productKey)+")");
+                    reviewsCountMap.put(productKey, 0);
+                }
+
                 Log.e(TAG, "onDataChange(Review) <<");
 
             }
@@ -137,9 +164,6 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
             }
         });
 
-        if (reviewsCountMap.get(productKey) >0) {
-            holder.getReviewsCount().setText("("+ reviewsCountMap.get(productKey)+")");
-        }
         //Check if the user already purchased the ivoryProduct if set the text to Play
         //If not to BUY $X
         holder.getOrigin().setText("$"+ ivoryProduct.getPrice());
