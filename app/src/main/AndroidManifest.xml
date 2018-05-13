@@ -30,6 +30,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.example.IvoryStore.IvoryDetailsActivity"
+            android:theme="@style/Theme.AppCompat"/>
+        <activity android:name="com.example.IvoryStore.ReviewActivity"
+            android:theme="@style/Theme.AppCompat"/>
 
     </application>
 

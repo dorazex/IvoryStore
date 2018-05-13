@@ -95,11 +95,11 @@ public class ReviewActivity extends Activity {
                     return Transaction.success(mutableData);
                 }
 
-                if (prevRating == -1) {
-                    // Increment the review count and rating only in case the user enters a new review
-                    ivoryProduct.incrementReviewCount();
-                } else{
-                }
+//                if (prevRating == -1) {
+//                    // Increment the review count and rating only in case the user enters a new review
+//                    ivoryProduct.incrementReviewCount();
+//                } else{
+//                }
 
                 mutableData.setValue(ivoryProduct);
                 Log.e(TAG, "doTransaction() << ivoryProduct was set");

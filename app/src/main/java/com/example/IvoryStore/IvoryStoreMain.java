@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,7 +45,7 @@ public class IvoryStoreMain extends Activity {
     private final String TAG = "IvoryStoreMain";
     private DatabaseReference allSongsRef;
     private DatabaseReference myUserRef;
-    private String signInClassName;
+//    private String signInClassName;
 
 
     private List<IvoryProductWithKey> songsList = new ArrayList<>();
@@ -61,7 +62,7 @@ public class IvoryStoreMain extends Activity {
         Log.e(TAG, "onCreate() >>");
 
         super.onCreate(savedInstanceState);
-        signInClassName = getIntent().getExtras().getString("sign_in_class");
+//        signInClassName = getIntent().getExtras().getString("sign_in_class");
 
 
         setContentView(R.layout.activity_ivory_store_main);
@@ -109,19 +110,22 @@ public class IvoryStoreMain extends Activity {
         signOutButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                switch (signInClassName){
-                    case "GoogleSignInActivity":
-                        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
-                        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(getBaseContext(), gso);
-                        mGoogleSignInClient.signOut();
-                        break;
-                    case "FacebookSignInActivity":
-                        LoginManager.getInstance().logOut();
-                        break;
-                    default:
-                        break;
+                for (UserInfo user: FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
+                    String providerId = user.getProviderId();
+                    switch (providerId) {
+                        case "google.com":
+                            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
+                            GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(getBaseContext(), gso);
+                            mGoogleSignInClient.signOut();
+                            break;
+                        case "facebook.com":
+                            LoginManager.getInstance().logOut();
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                FirebaseAuth.getInstance().signOut();
 
                 Intent intent = new Intent(getBaseContext(), SignInActivity.class);
                 startActivity(intent);

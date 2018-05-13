@@ -1,27 +1,34 @@
 package com.example.IvoryStore;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.IvoryStore.adapter.ReviewsAdapter;
 import com.example.IvoryStore.model.IvoryProduct;
 import com.example.IvoryStore.model.Review;
 import com.example.IvoryStore.model.User;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -63,14 +70,38 @@ public class IvoryDetailsActivity extends AppCompatActivity {
                 .getReference()
                 .child("product_image/" + ivoryProduct.getImage());
 
-        // Load the image using Glide
-        Glide.with(this)
-                .using(new FirebaseImageLoader())
-                .load(thumbRef)
-                .into((ImageView) findViewById(R.id.imageViewSong));
+//        // Load the image using Glide
+//        Glide.with(this)
+//                .using(new FirebaseImageLoader())
+//                .load(thumbRef)
+//                .into((ImageView) findViewById(R.id.imageViewProduct));
+
+        ////////
+
+        StorageReference mImageRef = thumbRef;
+        final long ONE_MEGABYTE = 1024 * 1024;
+        mImageRef.getBytes(ONE_MEGABYTE)
+                .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        Bitmap bm = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        DisplayMetrics dm = new DisplayMetrics();
+
+                        ((ImageView) findViewById(R.id.imageViewProduct)).setMinimumHeight(dm.heightPixels);
+                        ((ImageView) findViewById(R.id.imageViewProduct)).setMinimumWidth(dm.widthPixels);
+                        ((ImageView) findViewById(R.id.imageViewProduct)).setImageBitmap(bm);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
+        ////////
 
         ((TextView) findViewById(R.id.textViewName)).setText(ivoryProduct.getName());
-        ((TextView) findViewById(R.id.textViewElephantAge)).setText(ivoryProduct.getElephantAge());
+        ((TextView) findViewById(R.id.textViewElephantAge)).setText(Integer.toString(ivoryProduct.getElephantAge()));
         ((TextView) findViewById(R.id.textViewOrigin)).setText(ivoryProduct.getOrigin());
         buyPlay = ((Button) findViewById(R.id.buttonBuyPlay));
 
@@ -133,7 +164,7 @@ public class IvoryDetailsActivity extends AppCompatActivity {
            }
         );
 
-        recyclerViewProductReviews = findViewById(R.id.song_reviews);
+        recyclerViewProductReviews = findViewById(R.id.product_reviews);
         recyclerViewProductReviews.setHasFixedSize(true);
         recyclerViewProductReviews.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerViewProductReviews.setItemAnimator(new DefaultItemAnimator());
@@ -142,29 +173,29 @@ public class IvoryDetailsActivity extends AppCompatActivity {
         ReviewsAdapter reviewsAdapter = new ReviewsAdapter(reviewsList);
         recyclerViewProductReviews.setAdapter(reviewsAdapter);
 
-//        productReviewsRef = FirebaseDatabase.getInstance().getReference("Songs/" + key +"/reviews");
-//
-//        productReviewsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(DataSnapshot snapshot) {
-//
-//                        Log.e(TAG, "onDataChange() >> Songs/" + key);
-//
-//                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                            Review review = dataSnapshot.getValue(Review.class);
-//                            reviewsList.add(review);
-//                        }
-//                        recyclerViewProductReviews.getAdapter().notifyDataSetChanged();
-//                        Log.e(TAG, "onDataChange(Review) <<");
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(DatabaseError databaseError) {
-//
-//                        Log.e(TAG, "onCancelled(Review) >>" + databaseError.getMessage());
-//                    }
-//                });
+        productReviewsRef = FirebaseDatabase.getInstance().getReference("Products/" + key +"/reviews");
+
+        productReviewsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+
+                        Log.e(TAG, "onDataChange() >> Songs/" + key);
+
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            Review review = dataSnapshot.getValue(Review.class);
+                            reviewsList.add(review);
+                        }
+                        recyclerViewProductReviews.getAdapter().notifyDataSetChanged();
+                        Log.e(TAG, "onDataChange(Review) <<");
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                        Log.e(TAG, "onCancelled(Review) >>" + databaseError.getMessage());
+                    }
+                });
         Log.e(TAG, "onCreate() <<");
 
     }

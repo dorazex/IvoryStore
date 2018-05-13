@@ -19,10 +19,16 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.IvoryStore.IvoryDetailsActivity;
 import com.example.IvoryStore.model.IvoryProduct;
+import com.example.IvoryStore.model.Review;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.example.IvoryStore.R;
@@ -30,12 +36,14 @@ import com.example.IvoryStore.model.User;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdapter.IvoryProductViewHolder> {
 
     private final String TAG = "IvoryProductsAdapter";
 
     private List<IvoryProductWithKey> productsList;
+    private Map<String, Integer> reviewsCountMap;
 
     private User user;
 
@@ -43,6 +51,8 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
 
         this.productsList = productsList;
         this.user = user;
+        this.reviewsCountMap = new Map<String, Integer>() {
+        }
     }
 
     @Override
@@ -62,8 +72,8 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
 
         Log.e(TAG,"onBindViewHolder() >> " + position);
 
-        IvoryProduct ivoryProduct = productsList.get(position).getIvoryProduct();
-        String productKey = productsList.get(position).getKey();
+        final IvoryProduct ivoryProduct = productsList.get(position).getIvoryProduct();
+        final String productKey = productsList.get(position).getKey();
 
 
         StorageReference thumbRef = FirebaseStorage
@@ -102,11 +112,33 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
         holder.setSelectedProductKey(productKey);
         holder.getName().setText(ivoryProduct.getName());
         holder.getDeathReason().setText(ivoryProduct.getDeathReason());
-        holder.getElephantAge().setText(ivoryProduct.getElephantAge());
-     
+        holder.getElephantAge().setText(Integer.toString(ivoryProduct.getElephantAge()));
         holder.setImage(ivoryProduct.getImage());
-        if (ivoryProduct.getReviewsCount() >0) {
-            holder.getReviewsCount().setText("("+ ivoryProduct.getReviewsCount()+")");
+
+        reviewsCountMap.put(productKey, 0);
+        DatabaseReference productReviewsRef = FirebaseDatabase.getInstance().getReference("Products/" + productKey +"/reviews");
+        productReviewsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+
+                Log.e(TAG, "onDataChange() >> Products/" + productKey);
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    reviewsCountMap.put(productKey, reviewsCountMap.get(productKey) + 1);
+                }
+                Log.e(TAG, "onDataChange(Review) <<");
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+                Log.e(TAG, "onCancelled(Review) >>" + databaseError.getMessage());
+            }
+        });
+
+        if (reviewsCountMap.get(productKey) >0) {
+            holder.getReviewsCount().setText("("+ reviewsCountMap.get(productKey)+")");
         }
         //Check if the user already purchased the ivoryProduct if set the text to Play
         //If not to BUY $X
@@ -169,7 +201,7 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
 
                     Context context = view.getContext();
                     Intent intent = new Intent(context, IvoryDetailsActivity.class);
-                    intent.putExtra("product", selectedIvoryProduct);
+                    intent.putExtra("ivoryProduct", selectedIvoryProduct);
                     intent.putExtra("key", selectedProductKey);
                     intent.putExtra("user",user);
                     context.startActivity(intent);
