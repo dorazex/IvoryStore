@@ -33,15 +33,11 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
 
     @Override
     public void onBindViewHolder(ReviewViewHolder holder, int position) {
-
-        Log.e(TAG,"onBindViewHolder() >> " + position);
+        Log.d(TAG,String.format("onBindViewHolder called for review in position %s", position));
 
         Review review = reviewsList.get(position);
-
-        holder.getUserMail().setText(review.getUserEmail());
-        holder.getUserReview().setText(review.getUserReview());
-
-        Log.e(TAG,"onBindViewHolder() << "+ position);
+        holder.getUserMailTextView().setText(review.getUserEmail());
+        holder.getUserReviewTextView().setText(review.getUserReview());
     }
 
 
@@ -52,31 +48,31 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
 
     public class ReviewViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView userReview;
-        private TextView userMail;
+        private TextView userReviewTextView;
+        private TextView userMailTextView;
 
-        public ReviewViewHolder(Context context, View view) {
+        private ReviewViewHolder(Context context, View view) {
 
             super(view);
-            userReview = (TextView) view.findViewById(R.id.user_review);
-            userMail = (TextView) view.findViewById(R.id.user_mail);
+            userReviewTextView = (TextView) view.findViewById(R.id.user_review);
+            userMailTextView = (TextView) view.findViewById(R.id.user_mail);
 
         }
 
-        public TextView getUserReview() {
-            return userReview;
+        private TextView getUserReviewTextView() {
+            return userReviewTextView;
         }
 
-        public void setUserReview(TextView userReview) {
-            this.userReview = userReview;
+        public void setUserReviewTextView(TextView userReviewTextView) {
+            this.userReviewTextView = userReviewTextView;
         }
 
-        public TextView getUserMail() {
-            return userMail;
+        private TextView getUserMailTextView() {
+            return userMailTextView;
         }
 
-        public void setUserMail(TextView userMail) {
-            this.userMail = userMail;
+        public void setUserMailTextView(TextView userMailTextView) {
+            this.userMailTextView = userMailTextView;
         }
 
     }
