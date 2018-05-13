@@ -21,21 +21,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 public class AnonymousHomeActivity extends Activity {
+
     private static final String TAG = "Anonymous";
-    // [START declare_auth]
+
     private FirebaseAuth mAuth;
-    // [END declare_auth]
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_anonymous_home);
-//        TextView anonymousHomeTextView = (TextView) findViewById(R.id.AnonymousHomeEditText);
-//        anonymousHomeTextView.setText(R.string.anonymous_user_home_text);
-//        anonymousHomeTextView.setKeyListener(null);
-        // [START initialize_auth]
-        mAuth = FirebaseAuth.getInstance();
-        // [END initialize_auth]
 
+        mAuth = FirebaseAuth.getInstance();
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -43,8 +38,8 @@ public class AnonymousHomeActivity extends Activity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInAnonymously:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
                             createNewUser();
+                            FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -53,8 +48,6 @@ public class AnonymousHomeActivity extends Activity {
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
-
-                        // ...
                     }
                 });
 
@@ -63,35 +56,33 @@ public class AnonymousHomeActivity extends Activity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
     }
 
     private void updateUI(FirebaseUser user) {
+        // Check if user is signed in (non-null) and update UI accordingly.
         if (user != null) {
             Intent intent = new Intent(getApplicationContext(), IvoryStoreMain.class);
             intent.putExtra("sign_in_class", this.getClass().getSimpleName());
             startActivity(intent);
             finish();
         } else {
+            Intent intent = new Intent(getBaseContext(), SignInActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 
     private void createNewUser() {
-
-        Log.e(TAG, "createNewUser() >>");
-
-        FirebaseUser fbUser = mAuth.getCurrentUser();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
 
-        if (fbUser == null) {
+        if (currentUser == null) {
             Log.e(TAG, "createNewUser() << Error user is null");
             return;
         }
-
-        userRef.child(fbUser.getUid()).setValue(new User(fbUser.getEmail(),0,null));
-
-        Log.e(TAG, "createNewUser() <<");
+        userRef.child(currentUser.getUid()).setValue(
+                new User(currentUser.getEmail(),0,null));
     }
 }

@@ -41,7 +41,6 @@ public class IvoryProduct implements Parcelable {
         this.weight = in.readInt();
         this.price = in.readInt();
         in.readTypedList(this.reviews, Review.CREATOR);
-
     }
 
     public String getName() {

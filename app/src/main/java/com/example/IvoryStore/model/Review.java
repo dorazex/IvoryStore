@@ -22,6 +22,11 @@ public class Review implements Parcelable {
     public Review() {
     }
 
+    private Review(Parcel in) {
+        this.userReview = in.readString();
+        this.userEmail = in.readString();
+    }
+
     public String getUserReview() {
         return userReview;
     }

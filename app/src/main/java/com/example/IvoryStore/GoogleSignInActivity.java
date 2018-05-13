@@ -30,20 +30,16 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Demonstrate Firebase Authentication using a Google ID Token.
- */
 public class GoogleSignInActivity extends Activity implements
         View.OnClickListener {
 
     private static final String TAG = "GoogleActivity";
-    private static final int RC_SIGN_IN = 9001;
 
-    // [START declare_auth]
+    private static final int RC_SIGN_IN = 9001;
     private FirebaseAuth mAuth;
-    // [END declare_auth]
 
     private GoogleSignInClient mGoogleSignInClient;
+
     private TextView mStatusTextView;
     private TextView mDetailTextView;
 
@@ -60,32 +56,23 @@ public class GoogleSignInActivity extends Activity implements
         findViewById(R.id.GoogleSignInButton).setOnClickListener(this);
         findViewById(R.id.GoogleSignOutButton).setOnClickListener(this);
 
-        // [START config_signin]
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        // [END config_signin]
-
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
-        // [END initialize_auth]
     }
 
-    // [START on_start_check_user]
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
     }
-    // [END on_start_check_user]
 
-    // [START onactivityresult]
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -100,15 +87,11 @@ public class GoogleSignInActivity extends Activity implements
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e);
-                // [START_EXCLUDE]
                 updateUI(null);
-                // [END_EXCLUDE]
             }
         }
     }
-    // [END onactivityresult]
 
-    // [START auth_with_google]
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
@@ -129,35 +112,25 @@ public class GoogleSignInActivity extends Activity implements
                             Toast.makeText(GoogleSignInActivity.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
-
                     }
                 });
     }
-    // [END auth_with_google]
 
     private void createNewUser() {
-
-        Log.e(TAG, "createNewUser() >>");
-
-        FirebaseUser fbUser = mAuth.getCurrentUser();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
 
-        if (fbUser == null) {
+        if (currentUser == null) {
             Log.e(TAG, "createNewUser() << Error user is null");
             return;
         }
-
-        userRef.child(fbUser.getUid()).setValue(new User(fbUser.getEmail(),0,null));
-
-        Log.e(TAG, "createNewUser() <<");
+        userRef.child(currentUser.getUid()).setValue(new User(currentUser.getEmail(),0,null));
     }
 
-    // [START signin]
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
-    // [END signin]
 
     private void signOut() {
         // Firebase sign out
@@ -173,19 +146,16 @@ public class GoogleSignInActivity extends Activity implements
                 });
     }
 
-
     private void updateUI(FirebaseUser user) {
+        // Check if user is signed in (non-null) and update UI accordingly.
         if (user != null) {
             Intent intent = new Intent(getApplicationContext(), IvoryStoreMain.class);
-            intent.putExtra("sign_in_class", this.getClass().getSimpleName());
             startActivity(intent);
             finish();
         } else {
-            mStatusTextView.setText(R.string.signed_out);
-            mDetailTextView.setText(null);
-
-            findViewById(R.id.GoogleSignInButton).setVisibility(View.VISIBLE);
-            findViewById(R.id.GoogleSignOutButton).setVisibility(View.GONE);
+            Intent intent = new Intent(getBaseContext(), SignInActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 
@@ -197,6 +167,5 @@ public class GoogleSignInActivity extends Activity implements
         } else if (i == R.id.GoogleSignOutButton) {
             signOut();
         }
-        }
-
+    }
 }
