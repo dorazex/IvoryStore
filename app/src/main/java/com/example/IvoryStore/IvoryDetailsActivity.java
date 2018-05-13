@@ -165,7 +165,6 @@ public class IvoryDetailsActivity extends AppCompatActivity {
     }
 
     private void exhibitCurrentProduct(String productName) {
-
         Log.i(TAG, "exhibitCurrentProduct() >> product name=" + productName);
     }
 

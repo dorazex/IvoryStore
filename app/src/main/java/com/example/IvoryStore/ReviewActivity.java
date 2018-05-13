@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.IvoryStore.model.IvoryProduct;
@@ -23,19 +22,16 @@ import com.example.IvoryStore.model.User;
 public class ReviewActivity extends Activity {
 
     private final String TAG = "ReviewActivity";
+
     private IvoryProduct ivoryProduct;
     private String key;
     private User user;
-    private int prevRating = -1;
 
-    private TextView userReview;
-    private DatabaseReference songRef;
+    private TextView userReviewTextView;
+    private DatabaseReference productRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        Log.e(TAG, "onCreate() >>");
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
 
@@ -43,50 +39,36 @@ public class ReviewActivity extends Activity {
         ivoryProduct = getIntent().getParcelableExtra("ivoryProduct");
         user = getIntent().getParcelableExtra("user");
 
-        userReview = findViewById(R.id.new_user_review);
+        userReviewTextView = findViewById(R.id.new_user_review);
 
-
-        songRef = FirebaseDatabase.getInstance().getReference("Products/" + key);
-
-        songRef.child("/reviews/" +  FirebaseAuth.getInstance().getCurrentUser().getUid()).
+        productRef = FirebaseDatabase.getInstance().getReference("Products/" + key);
+        productRef.child("/reviews/" +  FirebaseAuth.getInstance().getCurrentUser().getUid()).
                 addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-
-                Log.e(TAG, "onDataChange(Review) >> " + snapshot.getKey());
-
                 Review review = snapshot.getValue(Review.class);
                 if (review != null) {
-                    userReview.setText(review.getUserReview());
+                    userReviewTextView.setText(review.getUserReview());
                 }
-
-                Log.e(TAG, "onDataChange(Review) <<");
-
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
                 Log.e(TAG, "onCancelled(Review) >>" + databaseError.getMessage());
             }
         });
-
-        Log.e(TAG, "onCreate() <<");
-
     }
 
     public void onSubmitClick(View v) {
 
-        Log.e(TAG, "onSubmitClick() >>");
+        Log.d(TAG, "onSubmitClick() called to update review");
 
-
-        songRef.runTransaction(new Transaction.Handler() {
+        productRef.runTransaction(new Transaction.Handler() {
 
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
 
-                Log.e(TAG, "doTransaction() >>" );
-
+                Log.d(TAG, "doTransaction() >>" );
 
                 IvoryProduct ivoryProduct = mutableData.getValue(IvoryProduct.class);
 
@@ -102,7 +84,7 @@ public class ReviewActivity extends Activity {
 //                }
 
                 mutableData.setValue(ivoryProduct);
-                Log.e(TAG, "doTransaction() << ivoryProduct was set");
+                Log.d(TAG, "doTransaction() << ivoryProduct was set");
                 return Transaction.success(mutableData);
 
             }
@@ -110,7 +92,7 @@ public class ReviewActivity extends Activity {
             @Override
             public void onComplete(DatabaseError databaseError, boolean committed, DataSnapshot dataSnapshot) {
 
-                Log.e(TAG, "onComplete() >>" );
+                Log.d(TAG, "onComplete() >>" );
 
                 if (databaseError != null) {
                     Log.e(TAG, "onComplete() << Error:" + databaseError.getMessage());
@@ -119,12 +101,11 @@ public class ReviewActivity extends Activity {
 
                 if (committed) {
                     Review review = new Review(
-                            userReview.getText().toString(),
+                            userReviewTextView.getText().toString(),
                             user.getEmail());
 
-                    songRef.child("/reviews/" + FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(review);
+                    productRef.child("/reviews/" + FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(review);
                 }
-
 
                 Intent intent = new Intent(getApplicationContext(),IvoryDetailsActivity.class);
                 intent.putExtra("ivoryProduct", ivoryProduct);
@@ -132,14 +113,7 @@ public class ReviewActivity extends Activity {
                 intent.putExtra("user",user);
                 startActivity(intent);
                 finish();
-
-                Log.e(TAG, "onComplete() <<" );
             }
         });
-
-
-
-        Log.e(TAG, "onSubmitClick() <<");
     }
-
 }
