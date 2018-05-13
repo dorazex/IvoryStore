@@ -106,8 +106,6 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
                 break;
             }
         }
-
-        Log.e(TAG,"onBindViewHolder() << "+ position);
     }
 
 

@@ -26,13 +26,8 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
 
     @Override
     public ReviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        Log.e(TAG,"onCreateViewHolder() >>");
-
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_review, parent, false);
-
-        Log.e(TAG,"onCreateViewHolder() <<");
         return new ReviewViewHolder(parent.getContext(),itemView);
     }
 
