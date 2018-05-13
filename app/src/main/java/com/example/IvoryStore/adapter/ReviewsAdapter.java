@@ -17,7 +17,6 @@ import java.util.List;
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewViewHolder> {
 
     private final String TAG = "ReviewsAdapter";
-
     private List<Review> reviewsList;
 
     public ReviewsAdapter(List<Review> reviewsList) {
