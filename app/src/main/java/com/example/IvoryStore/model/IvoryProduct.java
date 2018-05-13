@@ -93,6 +93,10 @@ public class IvoryProduct implements Parcelable {
         this.price = price;
     }
 
+    public List<Review> getReviews(){
+        return this.reviews;
+    }
+
     @Override
     public int describeContents() {
         return 0;
