@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.IvoryStore.adapter.ReviewsAdapter;
 import com.example.IvoryStore.model.IvoryProduct;
@@ -127,13 +128,19 @@ public class IvoryDetailsActivity extends AppCompatActivity {
                public void onClick(View view) {
                    Log.d(TAG, "writeReviewButton.onClick() >>");
 
-                   Intent intent = new Intent(getApplicationContext(),ReviewActivity.class);
-                   intent.putExtra("ivoryProduct", ivoryProduct);
-                   intent.putExtra("key", key);
-                   intent.putExtra("user",user);
+                   if (!songWasPurchased){
+                       Toast.makeText(IvoryDetailsActivity.this, "Only buyers can review",
+                               Toast.LENGTH_SHORT).show();
+                   } else {
 
-                   startActivity(intent);
-                   finish();
+                       Intent intent = new Intent(getApplicationContext(), ReviewActivity.class);
+                       intent.putExtra("ivoryProduct", ivoryProduct);
+                       intent.putExtra("key", key);
+                       intent.putExtra("user", user);
+
+                       startActivity(intent);
+                       finish();
+                   }
                }
            }
         );

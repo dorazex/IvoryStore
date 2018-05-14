@@ -31,6 +31,16 @@ public class AnonymousHomeActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         mAuth = FirebaseAuth.getInstance();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+    public void signIn(){
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -50,27 +60,16 @@ public class AnonymousHomeActivity extends Activity {
                         }
                     }
                 });
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
     }
 
     private void updateUI(FirebaseUser user) {
         // Check if user is signed in (non-null) and update UI accordingly.
         if (user != null) {
             Intent intent = new Intent(getApplicationContext(), IvoryStoreMain.class);
-            intent.putExtra("sign_in_class", this.getClass().getSimpleName());
             startActivity(intent);
             finish();
         } else {
-            Intent intent = new Intent(getBaseContext(), SignInActivity.class);
-            startActivity(intent);
-            finish();
+            signIn();
         }
     }
 

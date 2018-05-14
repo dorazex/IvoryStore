@@ -61,13 +61,17 @@ public class IvoryStoreMain extends Activity {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         TextView titleTextView = (TextView) findViewById(R.id.textViewUserID);
-        titleTextView.setText(fbUser.getEmail());
+        if (currentUser.getEmail() == null){
+            titleTextView.setText("Anonymous");
+        } else {
+            titleTextView.setText(currentUser.getEmail());
+        }
 
-        if (fbUser != null) {
-            DatabaseReference myUserRef = FirebaseDatabase.getInstance().getReference("Users/" + fbUser.getUid());
+        if (currentUser != null) {
+            DatabaseReference myUserRef = FirebaseDatabase.getInstance().getReference("Users/" + currentUser.getUid());
 
             myUserRef.addValueEventListener(new ValueEventListener() {
                 @Override
