@@ -84,7 +84,7 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/edit_text_search_song"
+                        android:id="@+id/editTextSearchName"
                         android:layout_width="wrap_content"
                         android:layout_height="45dp"
                         android:layout_marginEnd="8dp"
@@ -92,7 +92,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_weight="3"
                         android:ems="10"
-                        android:hint="Song Name"
+                        android:hint="Product Name"
                         android:inputType="text|textPersonName"
                         app:layout_constraintEnd_toStartOf="@+id/button_search"
                         app:layout_constraintStart_toStartOf="parent"
@@ -139,7 +139,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:onClick="onRadioButtonCLick"
-                        android:text="By elephant age  "
+                        android:text="By elephant age"
                         android:textColor="@color/store_main_filter_text"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
@@ -154,7 +154,7 @@
     </FrameLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/songs_list"
+        android:id="@+id/productsList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="8dp"

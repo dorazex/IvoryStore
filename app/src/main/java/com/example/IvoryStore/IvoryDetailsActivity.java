@@ -86,7 +86,7 @@ public class IvoryDetailsActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.textViewDeathReason)).setText("Death Reason:" + ivoryProduct.getDeathReason());
         ((TextView) findViewById(R.id.textViewWeight)).setText("Weight:" + Integer.toString(ivoryProduct.getWeight()));
 
-        buyOrUseButton = ((Button) findViewById(R.id.buttonBuyPlay));
+        buyOrUseButton = ((Button) findViewById(R.id.buttonBuyUse));
         buyOrUseButton.setText("$" + ivoryProduct.getPrice());
 
         for (String pKey :

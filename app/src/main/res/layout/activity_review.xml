@@ -7,7 +7,7 @@
     tools:context="com.example.IvoryStore.ReviewActivity">
 
     <EditText
-        android:id="@+id/new_user_review"
+        android:id="@+id/newUserReview"
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:layout_marginEnd="8dp"
@@ -22,7 +22,7 @@
 
 
     <Button
-        android:id="@+id/button_submit"
+        android:id="@+id/buttonSubmit"
         android:layout_width="222dp"
         android:layout_height="50dp"
         android:layout_marginBottom="16dp"

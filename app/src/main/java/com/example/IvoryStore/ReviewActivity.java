@@ -39,7 +39,7 @@ public class ReviewActivity extends Activity {
         ivoryProduct = getIntent().getParcelableExtra("ivoryProduct");
         user = getIntent().getParcelableExtra("user");
 
-        userReviewTextView = findViewById(R.id.new_user_review);
+        userReviewTextView = findViewById(R.id.newUserReview);
 
         productRef = FirebaseDatabase.getInstance().getReference("Products/" + key);
         productRef.child("/reviews/" +  FirebaseAuth.getInstance().getCurrentUser().getUid()).

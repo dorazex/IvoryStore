@@ -9,7 +9,7 @@
     >
 
     <android.support.v7.widget.CardView
-        android:id="@+id/card_view_product"
+        android:id="@+id/cardViewProduct"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_gravity="center"
@@ -26,7 +26,7 @@
             android:background="@color/color_product_card_background">
 
             <ImageView
-                android:id="@+id/product_image"
+                android:id="@+id/productImage"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginBottom="8dp"
@@ -38,7 +38,7 @@
                 card_view:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/product_name"
+                android:id="@+id/productName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -47,32 +47,32 @@
                 android:textColor="@color/store_main_text"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                card_view:layout_constraintStart_toEndOf="@+id/product_image"
+                card_view:layout_constraintStart_toEndOf="@+id/productImage"
                 card_view:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/product_elephant_age"
+                android:id="@+id/productElephantAge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="[elephant age]"
                 android:textColor="@color/store_main_recycler"
-                card_view:layout_constraintStart_toEndOf="@+id/product_image"
-                card_view:layout_constraintTop_toBottomOf="@+id/product_name" />
+                card_view:layout_constraintStart_toEndOf="@+id/productImage"
+                card_view:layout_constraintTop_toBottomOf="@+id/productName" />
 
             <TextView
-                android:id="@+id/product_origin_continent"
+                android:id="@+id/productOriginContinent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="[originContinent]"
                 android:textColor="@android:color/holo_blue_light"
                 android:textSize="14sp"
-                card_view:layout_constraintStart_toEndOf="@+id/product_image"
-                card_view:layout_constraintTop_toBottomOf="@+id/product_elephant_age" />
+                card_view:layout_constraintStart_toEndOf="@+id/productImage"
+                card_view:layout_constraintTop_toBottomOf="@+id/productElephantAge" />
 
             <TextView
-                android:id="@+id/product_price"
+                android:id="@+id/productPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -86,14 +86,14 @@
                 card_view:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
-                android:id="@+id/product_review_count"
+                android:id="@+id/productReviewCount"
                 android:layout_width="wrap_content"
                 android:layout_height="17dp"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="8dp"
                 android:textColor="@color/store_main_text"
                 app:layout_constraintBottom_toBottomOf="parent"
-                card_view:layout_constraintStart_toEndOf="@+id/product_image" />
+                card_view:layout_constraintStart_toEndOf="@+id/productImage" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>

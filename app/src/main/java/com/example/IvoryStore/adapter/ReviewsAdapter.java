@@ -54,8 +54,8 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
         private ReviewViewHolder(Context context, View view) {
 
             super(view);
-            userReviewTextView = (TextView) view.findViewById(R.id.user_review);
-            userMailTextView = (TextView) view.findViewById(R.id.user_mail);
+            userReviewTextView = (TextView) view.findViewById(R.id.userReview);
+            userMailTextView = (TextView) view.findViewById(R.id.userEmail);
 
         }
 

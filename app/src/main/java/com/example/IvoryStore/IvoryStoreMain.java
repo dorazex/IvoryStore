@@ -56,7 +56,7 @@ public class IvoryStoreMain extends Activity {
 
         setContentView(R.layout.activity_ivory_store_main);
 
-        recyclerView = (RecyclerView) findViewById(R.id.songs_list);
+        recyclerView = (RecyclerView) findViewById(R.id.productsList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -263,7 +263,7 @@ public class IvoryStoreMain extends Activity {
 
     public void onSearchButtonClick(View v) {
 
-        String searchString = ((EditText)findViewById(R.id.edit_text_search_song)).getText().toString();
+        String searchString = ((EditText)findViewById(R.id.editTextSearchName)).getText().toString();
         String orderBy = ((RadioButton)findViewById(R.id.radioButtonByElephantAge)).isChecked() ? "elephantAge" : "price";
         Query searchSong;
 

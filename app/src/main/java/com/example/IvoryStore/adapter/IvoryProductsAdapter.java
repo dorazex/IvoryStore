@@ -131,13 +131,13 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
 
             super(view);
 
-            ivoryProductCardView = (CardView) view.findViewById(R.id.card_view_product);
-            imageView = (ImageView) view.findViewById(R.id.product_image);
-            nameTextView = (TextView) view.findViewById(R.id.product_name);
-            elephantAgeTextView = (TextView) view.findViewById(R.id.product_elephant_age);
-            originContinentTextView = (TextView) view.findViewById(R.id.product_origin_continent);
-            priceTextView = (TextView) view.findViewById(R.id.product_price);
-            reviewsCountTextView = (TextView) view.findViewById(R.id.product_review_count);
+            ivoryProductCardView = (CardView) view.findViewById(R.id.cardViewProduct);
+            imageView = (ImageView) view.findViewById(R.id.productImage);
+            nameTextView = (TextView) view.findViewById(R.id.productName);
+            elephantAgeTextView = (TextView) view.findViewById(R.id.productElephantAge);
+            originContinentTextView = (TextView) view.findViewById(R.id.productOriginContinent);
+            priceTextView = (TextView) view.findViewById(R.id.productPrice);
+            reviewsCountTextView = (TextView) view.findViewById(R.id.productReviewCount);
 
             this.context = context;
 
