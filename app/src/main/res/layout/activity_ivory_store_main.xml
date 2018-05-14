@@ -11,13 +11,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:minHeight="40dp"
         android:orientation="horizontal"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteY="0dp">
+        app:layout_constraintRight_toRightOf="parent">
 
         <TextView
             android:id="@+id/textViewUserID"
@@ -28,10 +26,11 @@
             android:contextClickable="false"
             android:ems="10"
             android:fadingEdge="none"
+            android:gravity="center"
             android:inputType="none"
             android:maxHeight="40dp"
             android:paddingLeft="10dp"
-            android:gravity="center"
+            android:paddingTop="5dp"
             android:singleLine="true"
             android:text="User ID"
             android:textAlignment="textStart"
@@ -46,7 +45,7 @@
             android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@color/colorLightGrey"
-            android:padding="0dp"
+            android:paddingTop="5dp"
             android:text="Sign Out" />
 
     </LinearLayout>
@@ -54,44 +53,43 @@
     <FrameLayout
         android:id="@+id/filter_bar_container"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@color/cardview_dark_background"
+        android:layout_height="wrap_content"
+        android:background="@color/colorLightGrey"
         android:paddingBottom="8dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteY="0dp"
-        >
+        tools:layout_editor_absoluteY="0dp">
 
 
         <android.support.v7.widget.CardView
             android:id="@+id/filter_bar"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:clickable="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorLightGrey"
                 android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:background="@color/cardview_light_background"
-                >
+                android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    >
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
                     <EditText
                         android:id="@+id/edit_text_search_song"
-                        android:layout_weight="3"
-                        android:layout_height="45dp"
                         android:layout_width="wrap_content"
+                        android:layout_height="45dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
+                        android:layout_weight="3"
                         android:ems="10"
                         android:hint="Song Name"
                         android:inputType="text|textPersonName"
@@ -101,12 +99,12 @@
 
                     <Button
                         android:id="@+id/button_search"
-                        android:layout_weight="1"
-                        android:layout_height="45dp"
                         android:layout_width="wrap_content"
+                        android:layout_height="45dp"
                         android:layout_marginBottom="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginTop="8dp"
+                        android:layout_weight="1"
                         android:onClick="onSearchButtonClick"
                         android:text="Search"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -117,33 +115,31 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="0dp"
                     android:gravity="center_vertical"
-                    >
+                    android:orientation="horizontal">
+
                     <RadioButton
                         android:id="@+id/radioButtonByPrice"
-                        android:layout_weight="1"
-                        android:layout_height="32dp"
                         android:layout_width="match_parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="16dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:checked="true"
                         android:onClick="onRadioButtonCLick"
                         android:text="Order by price"
+                        android:textColor="@color/store_main_filter_text"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent" />
 
                     <RadioButton
                         android:id="@+id/radioButtonByReviews"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
                         android:layout_width="match_parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:onClick="onRadioButtonCLick"
                         android:text="Order by reviews  "
+                        android:textColor="@color/store_main_filter_text"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
                 </LinearLayout>
@@ -162,9 +158,10 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
+        android:background="@color/store_main_recycler"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filter_bar_container"></android.support.v7.widget.RecyclerView>
+        app:layout_constraintTop_toBottomOf="@+id/filter_bar_container" />
 
 </LinearLayout>

@@ -22,7 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="4dp">
+            android:padding="4dp"
+            android:background="@color/color_product_card_background">
 
             <ImageView
                 android:id="@+id/product_image"
@@ -31,7 +32,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:src="@color/colorAccent"
+                android:src="@color/color_product_card_background"
                 card_view:layout_constraintBottom_toBottomOf="parent"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent" />
@@ -42,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:text="[SONG NAME]"
+                android:text="[PRODUCT NAME]"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -54,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="[artist]"
+                android:text="[elephant age]"
                 android:textColor="@android:color/holo_blue_dark"
                 card_view:layout_constraintStart_toEndOf="@+id/product_image"
                 card_view:layout_constraintTop_toBottomOf="@+id/product_name" />
@@ -64,18 +65,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="[genere]"
+                android:text="[death reason]"
                 android:textColor="@android:color/holo_blue_light"
                 android:textSize="14sp"
                 card_view:layout_constraintStart_toEndOf="@+id/product_image"
                 card_view:layout_constraintTop_toBottomOf="@+id/product_elephant_age" />
 
             <TextView
-                android:id="@+id/product_origin"
-                android:layout_width="66dp"
+                android:id="@+id/product_price"
+                android:layout_width="92dp"
                 android:layout_height="32dp"
                 android:layout_marginEnd="8dp"
-                android:text="[$X.X]"
+                android:text="[$XXXX]"
                 android:textAlignment="center"
                 android:textColor="@android:color/holo_green_dark"
                 android:textSize="24sp"

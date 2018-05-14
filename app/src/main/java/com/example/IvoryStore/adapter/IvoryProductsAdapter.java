@@ -19,11 +19,6 @@ import com.example.IvoryStore.IvoryDetailsActivity;
 import com.example.IvoryStore.model.IvoryProduct;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.example.IvoryStore.R;
@@ -98,13 +93,13 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
 
         //Check if the user already purchased the ivoryProduct if set the text to Play
         //If not to BUY $X
-        holder.getOriginTextView().setText("$"+ ivoryProduct.getPrice());
+        holder.getPriceTextView().setText("$"+ ivoryProduct.getPrice());
 
         Iterator i = user.getProducts().iterator();
         for (String pKey:
                 user.getProducts()) {
             if (pKey.equals(productKey)){
-                holder.getOriginTextView().setTextColor(R.color.colorLightGrey);
+                holder.getPriceTextView().setTextColor(R.color.colorLightGrey);
                 break;
             }
         }
@@ -124,7 +119,7 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
         private TextView nameTextView;
         private TextView elephantAgeTextView;
         private TextView deathReasonTextView;
-        private TextView originTextView;
+        private TextView priceTextView;
         private TextView reviewsCountTextView;
 
         private Context context;
@@ -140,7 +135,7 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
             nameTextView = (TextView) view.findViewById(R.id.product_name);
             elephantAgeTextView = (TextView) view.findViewById(R.id.product_elephant_age);
             deathReasonTextView = (TextView) view.findViewById(R.id.product_death_reason);
-            originTextView = (TextView) view.findViewById(R.id.product_origin);
+            priceTextView = (TextView) view.findViewById(R.id.product_price);
             reviewsCountTextView = (TextView) view.findViewById(R.id.product_review_count);
 
             this.context = context;
@@ -161,8 +156,8 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
             });
         }
 
-        private TextView getOriginTextView() {
-            return originTextView;
+        private TextView getPriceTextView() {
+            return priceTextView;
         }
 
         private TextView getNameTextView() {
