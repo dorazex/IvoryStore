@@ -34,7 +34,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class IvoryDetailsActivity extends AppCompatActivity {
@@ -82,11 +81,13 @@ public class IvoryDetailsActivity extends AppCompatActivity {
         });
 
         ((TextView) findViewById(R.id.textViewName)).setText(ivoryProduct.getName());
-        ((TextView) findViewById(R.id.textViewElephantAge)).setText(Integer.toString(ivoryProduct.getElephantAge()));
-        ((TextView) findViewById(R.id.textViewOrigin)).setText(ivoryProduct.getOrigin());
+        ((TextView) findViewById(R.id.textViewElephantAge)).setText("Age:" + Integer.toString(ivoryProduct.getElephantAge()));
+        ((TextView) findViewById(R.id.textViewOriginContinent)).setText("Origin:" + ivoryProduct.getOriginContinent());
+        ((TextView) findViewById(R.id.textViewDeathReason)).setText("Death Reason:" + ivoryProduct.getDeathReason());
+        ((TextView) findViewById(R.id.textViewWeight)).setText("Weight:" + Integer.toString(ivoryProduct.getWeight()));
 
         buyOrUseButton = ((Button) findViewById(R.id.buttonBuyPlay));
-        buyOrUseButton.setText("BUY $" + ivoryProduct.getPrice());
+        buyOrUseButton.setText("$" + ivoryProduct.getPrice());
 
         for (String pKey :
                 user.getProducts()) {
@@ -106,7 +107,7 @@ public class IvoryDetailsActivity extends AppCompatActivity {
 
                 if (songWasPurchased) {
                     Log.d(TAG, "buyOrUseButton.onClick() >> demonstrating product");
-                    exhibitCurrentProduct(ivoryProduct.getName());
+                    demonstrateCurrentProduct(ivoryProduct.getName());
 
                 } else {
                     //Purchase the ivoryProduct.
@@ -171,8 +172,30 @@ public class IvoryDetailsActivity extends AppCompatActivity {
 
     }
 
-    private void exhibitCurrentProduct(String productName) {
-        Log.i(TAG, "exhibitCurrentProduct() >> product name=" + productName);
+    private void demonstrateCurrentProduct(String productName) {
+        Log.i(TAG, "demonstrateCurrentProduct() >> product name=" + productName);
+        StorageReference imageRef = FirebaseStorage
+                .getInstance()
+                .getReference()
+                .child("product_image/demonstration/" + ivoryProduct.getImage());
+
+        final long ONE_MEGABYTE = 1024 * 1024;
+        imageRef.getBytes(ONE_MEGABYTE)
+                .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        Bitmap bm = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        DisplayMetrics dm = new DisplayMetrics();
+                        ((ImageView) findViewById(R.id.imageViewDemonstrateProduct)).setMinimumHeight(dm.heightPixels);
+                        ((ImageView) findViewById(R.id.imageViewDemonstrateProduct)).setMinimumWidth(dm.widthPixels);
+                        ((ImageView) findViewById(R.id.imageViewDemonstrateProduct)).setImageBitmap(bm);
+                        ((ImageView) findViewById(R.id.imageViewDemonstrateProduct)).setVisibility(View.VISIBLE);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {}
+        });
+
     }
 
 }

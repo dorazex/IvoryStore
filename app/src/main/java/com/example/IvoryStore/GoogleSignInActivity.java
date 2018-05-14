@@ -117,14 +117,27 @@ public class GoogleSignInActivity extends Activity implements
     }
 
     private void createNewUser() {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
+        final DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
 
         if (currentUser == null) {
             Log.e(TAG, "createNewUser() << Error user is null");
             return;
         }
-        userRef.child(currentUser.getUid()).setValue(new User(currentUser.getEmail(),0,null));
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (!snapshot.hasChild(currentUser.getUid())) {
+                    userRef.child(currentUser.getUid()).setValue(new User(currentUser.getEmail(),0,null));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void signIn() {

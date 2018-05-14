@@ -104,34 +104,41 @@ public class IvoryStoreMain extends Activity {
         signOutButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                for (UserInfo user: FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
-                    String providerId = user.getProviderId();
-                    switch (providerId) {
-                        case "google.com":
-                            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
-                            GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(getBaseContext(), gso);
-                            mGoogleSignInClient.signOut();
-                            break;
-                        case "facebook.com":
-                            LoginManager.getInstance().logOut();
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                FirebaseAuth.getInstance().signOut();
-
-                Intent intent = new Intent(getBaseContext(), SignInActivity.class);
-                startActivity(intent);
-                finish();
+                signOut();
             }
         });
+    }
+
+    private void signOut(){
+        for (UserInfo user: FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
+            String providerId = user.getProviderId();
+            switch (providerId) {
+                case "google.com":
+                    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
+                    GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(getBaseContext(), gso);
+                    mGoogleSignInClient.signOut();
+                    break;
+                case "facebook.com":
+                    LoginManager.getInstance().logOut();
+                    break;
+                default:
+                    break;
+            }
+        }
+        FirebaseAuth.getInstance().signOut();
+
+        Intent intent = new Intent(getBaseContext(), SignInActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void getAllSongs() {
 
 
         songsList.clear();
+        if (myUser == null){
+            signOut();
+        }
         IvoryProductsAdapter ivoryProductsAdapter = new IvoryProductsAdapter(songsList, myUser);
         recyclerView.setAdapter(ivoryProductsAdapter);
 
@@ -257,7 +264,7 @@ public class IvoryStoreMain extends Activity {
     public void onSearchButtonClick(View v) {
 
         String searchString = ((EditText)findViewById(R.id.edit_text_search_song)).getText().toString();
-        String orderBy = ((RadioButton)findViewById(R.id.radioButtonByReviews)).isChecked() ? "reviewsCount" : "price";
+        String orderBy = ((RadioButton)findViewById(R.id.radioButtonByElephantAge)).isChecked() ? "elephantAge" : "price";
         Query searchSong;
 
         Log.e(TAG, "onSearchButtonClick() >> searchString="+searchString+ ",orderBy="+orderBy);
@@ -296,12 +303,13 @@ public class IvoryStoreMain extends Activity {
     public void onRadioButtonCLick(View v) {
         switch (v.getId()) {
             case R.id.radioButtonByPrice:
-                ((RadioButton)findViewById(R.id.radioButtonByReviews)).setChecked(false);
+                ((RadioButton)findViewById(R.id.radioButtonByElephantAge)).setChecked(false);
                 break;
-            case R.id.radioButtonByReviews:
+            case R.id.radioButtonByElephantAge:
                 ((RadioButton)findViewById(R.id.radioButtonByPrice)).setChecked(false);
                 break;
         }
+        onSearchButtonClick(v);
     }
 }
 

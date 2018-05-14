@@ -5,7 +5,8 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorLightGrey">#FFFFFF</color>
     <color name="colorGreenSubmit">#206815</color>
-    <color name="color_product_card_background">#6F719F</color>
-    <color name="store_main_recycler">#515151</color>
+    <color name="color_product_card_background">#dbdbdb</color>
+    <color name="store_main_recycler">#146e9b</color>
     <color name="store_main_filter_text">#303030</color>
+    <color name="store_main_text">#516e7c</color>
 </resources>

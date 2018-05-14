@@ -5,28 +5,26 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class IvoryProduct implements Parcelable {
 
     private String name;
     private String deathReason;
-    private String origin;
+    private String originContinent;
     private int elephantAge;
     private int weight;
     private int price;
     private String image;
     private HashMap<String,Review> reviews;
 
-    public IvoryProduct(String name, String deathReason, String origin, int elephantAge, String image, int weight, int price, HashMap<String,Review> reviews) {
+    public IvoryProduct(String name, String deathReason, String originContinent, int elephantAge, String image, int weight, int price, HashMap<String,Review> reviews) {
         this.name = name;
         this.deathReason = deathReason;
-        this.origin = origin;
+        this.originContinent = originContinent;
         this.elephantAge = elephantAge;
-        this.image = image;
         this.weight = weight;
         this.price = price;
+        this.image = image;
         this.reviews = reviews;
     }
 
@@ -36,11 +34,11 @@ public class IvoryProduct implements Parcelable {
     private IvoryProduct(Parcel in) {
         this.name = in.readString();
         this.deathReason = in.readString();
-        this.origin = in.readString();
+        this.originContinent = in.readString();
         this.elephantAge = in.readInt();
-        this.image = in.readString();
         this.weight = in.readInt();
         this.price = in.readInt();
+        this.image = in.readString();
         in.readHashMap(Review.class.getClassLoader());
     }
 
@@ -58,11 +56,11 @@ public class IvoryProduct implements Parcelable {
         this.deathReason = deathReason;
     }
 
-    public String getOrigin() {
-        return origin;
+    public String getOriginContinent() {
+        return originContinent;
     }
-    public void setOrigin(String genere) {
-        this.origin = origin;
+    public void setOriginContinent(String originContinent) {
+        this.originContinent = originContinent;
     }
 
     public int getElephantAge() {
@@ -106,11 +104,11 @@ public class IvoryProduct implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(name);
         parcel.writeString(deathReason);
-        parcel.writeString(origin);
+        parcel.writeString(originContinent);
         parcel.writeInt(elephantAge);
-        parcel.writeString(image);
         parcel.writeInt(weight);
         parcel.writeInt(price);
+        parcel.writeString(image);
     }
 
     @Override
@@ -122,7 +120,7 @@ public class IvoryProduct implements Parcelable {
         return this.name == prod.getName() &&
                 this.elephantAge == prod.getElephantAge() &&
                 this.getDeathReason() == prod.getDeathReason() &&
-                this.getOrigin() == prod.getOrigin() &&
+                this.getOriginContinent() == prod.getOriginContinent() &&
                 this.getPrice() == prod.getPrice() &&
                 this.getWeight() == prod.getWeight();
     }

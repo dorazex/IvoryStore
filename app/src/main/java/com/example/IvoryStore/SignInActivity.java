@@ -42,9 +42,6 @@ public class SignInActivity extends Activity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(SignInActivity.this, "Fetch Succeeded",
-                                    Toast.LENGTH_SHORT).show();
-
                             // After config data is successfully fetched, it must be activated before newly fetched
                             // values are returned.
                             mFirebaseRemoteConfig.activateFetched();

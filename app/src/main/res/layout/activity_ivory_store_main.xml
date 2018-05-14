@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorLightGrey"
     android:orientation="vertical"
     tools:context="com.example.IvoryStore.IvoryStoreMain">
 
@@ -34,7 +35,7 @@
             android:singleLine="true"
             android:text="User ID"
             android:textAlignment="textStart"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/store_main_recycler"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -125,20 +126,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:checked="true"
+                        android:checked="false"
                         android:onClick="onRadioButtonCLick"
-                        android:text="Order by price"
+                        android:text="By price"
                         android:textColor="@color/store_main_filter_text"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent" />
 
                     <RadioButton
-                        android:id="@+id/radioButtonByReviews"
+                        android:id="@+id/radioButtonByElephantAge"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:onClick="onRadioButtonCLick"
-                        android:text="Order by reviews  "
+                        android:text="By elephant age  "
                         android:textColor="@color/store_main_filter_text"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
@@ -158,7 +159,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        android:background="@color/store_main_recycler"
+        android:background="@color/colorLightGrey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

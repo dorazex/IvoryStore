@@ -81,13 +81,13 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
         holder.setSelectedIvoryProduct(ivoryProduct);
         holder.setSelectedProductKey(productKey);
         holder.getNameTextView().setText(ivoryProduct.getName());
-        holder.getDeathReasonTextView().setText(ivoryProduct.getDeathReason());
-        holder.getElephantAgeTextView().setText(Integer.toString(ivoryProduct.getElephantAge()));
+        holder.getOriginContinentTextView().setText(ivoryProduct.getOriginContinent());
+        holder.getElephantAgeTextView().setText("Age in death: " + Integer.toString(ivoryProduct.getElephantAge()));
 
         if (ivoryProduct.getReviews() != null) {
             int reviewsCount = ivoryProduct.getReviews().size();
             if (reviewsCount > 0) {
-                holder.getReviewsCountTextView().setText("(" + reviewsCount + ")");
+                holder.getReviewsCountTextView().setText("(" + reviewsCount + " reviews)");
             }
         }
 
@@ -99,7 +99,8 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
         for (String pKey:
                 user.getProducts()) {
             if (pKey.equals(productKey)){
-                holder.getPriceTextView().setTextColor(R.color.colorLightGrey);
+//                holder.getPriceTextView().setTextColor(R.color.colorLightGrey);
+                holder.getPriceTextView().setText("Owned");
                 break;
             }
         }
@@ -118,7 +119,7 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
         private ImageView imageView;
         private TextView nameTextView;
         private TextView elephantAgeTextView;
-        private TextView deathReasonTextView;
+        private TextView originContinentTextView;
         private TextView priceTextView;
         private TextView reviewsCountTextView;
 
@@ -134,7 +135,7 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
             imageView = (ImageView) view.findViewById(R.id.product_image);
             nameTextView = (TextView) view.findViewById(R.id.product_name);
             elephantAgeTextView = (TextView) view.findViewById(R.id.product_elephant_age);
-            deathReasonTextView = (TextView) view.findViewById(R.id.product_death_reason);
+            originContinentTextView = (TextView) view.findViewById(R.id.product_origin_continent);
             priceTextView = (TextView) view.findViewById(R.id.product_price);
             reviewsCountTextView = (TextView) view.findViewById(R.id.product_review_count);
 
@@ -172,8 +173,8 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
             return elephantAgeTextView;
         }
 
-        private TextView getDeathReasonTextView() {
-            return deathReasonTextView;
+        private TextView getOriginContinentTextView() {
+            return originContinentTextView;
         }
 
         public Context getContext() {

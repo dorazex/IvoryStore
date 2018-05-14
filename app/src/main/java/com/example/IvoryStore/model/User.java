@@ -27,7 +27,6 @@ public class User implements Parcelable {
     }
     public int getTotalPurchase() { return totalPurchase; }
     public List<String> getProducts() { return products; }
-
     public void updateTotalPurchase(int newPurcahsePrice) {
         this.totalPurchase += newPurcahsePrice;
     }
@@ -40,11 +39,13 @@ public class User implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(email);
+        parcel.writeInt(totalPurchase);
         parcel.writeList(products);
     }
 
     public User(Parcel in) {
         this.email = in.readString();
+        this.totalPurchase = in.readInt();
         in.readList(products,String.class.getClassLoader());
     }
 

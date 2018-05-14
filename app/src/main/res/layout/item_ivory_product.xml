@@ -44,7 +44,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:text="[PRODUCT NAME]"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/store_main_text"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 card_view:layout_constraintStart_toEndOf="@+id/product_image"
@@ -56,16 +56,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="[elephant age]"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@color/store_main_recycler"
                 card_view:layout_constraintStart_toEndOf="@+id/product_image"
                 card_view:layout_constraintTop_toBottomOf="@+id/product_name" />
 
             <TextView
-                android:id="@+id/product_death_reason"
+                android:id="@+id/product_origin_continent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="[death reason]"
+                android:text="[originContinent]"
                 android:textColor="@android:color/holo_blue_light"
                 android:textSize="14sp"
                 card_view:layout_constraintStart_toEndOf="@+id/product_image"
@@ -73,8 +73,8 @@
 
             <TextView
                 android:id="@+id/product_price"
-                android:layout_width="92dp"
-                android:layout_height="32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="[$XXXX]"
                 android:textAlignment="center"
@@ -88,11 +88,12 @@
             <TextView
                 android:id="@+id/product_review_count"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="17dp"
                 android:layout_marginBottom="16dp"
                 android:layout_marginStart="8dp"
+                android:textColor="@color/store_main_text"
                 app:layout_constraintBottom_toBottomOf="parent"
-                card_view:layout_constraintStart_toEndOf="@+id/product_death_reason" />
+                card_view:layout_constraintStart_toEndOf="@+id/product_image" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
