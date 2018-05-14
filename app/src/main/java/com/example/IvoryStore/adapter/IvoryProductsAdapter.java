@@ -91,7 +91,7 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
             }
         }
 
-        //Check if the user already purchased the ivoryProduct if set the text to Play
+        //Check if the user already purchased the ivoryProduct if set the text to demonstrate
         //If not to BUY $X
         holder.getPriceTextView().setText("$"+ ivoryProduct.getPrice());
 
@@ -99,7 +99,6 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
         for (String pKey:
                 user.getProducts()) {
             if (pKey.equals(productKey)){
-//                holder.getPriceTextView().setTextColor(R.color.colorLightGrey);
                 holder.getPriceTextView().setText("Owned");
                 break;
             }

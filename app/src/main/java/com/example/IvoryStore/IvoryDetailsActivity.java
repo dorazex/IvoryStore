@@ -43,12 +43,12 @@ public class IvoryDetailsActivity extends AppCompatActivity {
     private IvoryProduct ivoryProduct;
     private String key;
     private User user;
-    private boolean songWasPurchased;
+    private boolean productWasPurchased;
 
     private Button buyOrUseButton;
     private RecyclerView recyclerViewProductReviews;
 
-    private List<Review> reviewsList =  new ArrayList<>();
+    private List<Review> reviewsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,14 +77,19 @@ public class IvoryDetailsActivity extends AppCompatActivity {
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onFailure(@NonNull Exception exception) {}
+            public void onFailure(@NonNull Exception exception) {
+            }
         });
 
         ((TextView) findViewById(R.id.textViewName)).setText(ivoryProduct.getName());
-        ((TextView) findViewById(R.id.textViewElephantAge)).setText("Age:" + Integer.toString(ivoryProduct.getElephantAge()));
-        ((TextView) findViewById(R.id.textViewOriginContinent)).setText("Origin:" + ivoryProduct.getOriginContinent());
-        ((TextView) findViewById(R.id.textViewDeathReason)).setText("Death Reason:" + ivoryProduct.getDeathReason());
-        ((TextView) findViewById(R.id.textViewWeight)).setText("Weight:" + Integer.toString(ivoryProduct.getWeight()));
+        ((TextView) findViewById(R.id.textViewElephantAge)).setText(
+                "Age:" + Integer.toString(ivoryProduct.getElephantAge()));
+        ((TextView) findViewById(R.id.textViewOriginContinent)).setText(
+                "Origin:" + ivoryProduct.getOriginContinent());
+        ((TextView) findViewById(R.id.textViewDeathReason)).setText(
+                "Death Reason:" + ivoryProduct.getDeathReason());
+        ((TextView) findViewById(R.id.textViewWeight)).setText(
+                "Weight:" + Integer.toString(ivoryProduct.getWeight()));
 
         buyOrUseButton = ((Button) findViewById(R.id.buttonBuyUse));
         buyOrUseButton.setText("$" + ivoryProduct.getPrice());
@@ -92,7 +97,7 @@ public class IvoryDetailsActivity extends AppCompatActivity {
         for (String pKey :
                 user.getProducts()) {
             if (pKey.equals(key)) {
-                songWasPurchased = true;
+                productWasPurchased = true;
                 buyOrUseButton.setText("USE");
                 break;
             }
@@ -102,13 +107,11 @@ public class IvoryDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-
                 Log.d(TAG, "buyOrUseButton.onClick() on product name = " + ivoryProduct.getName());
 
-                if (songWasPurchased) {
+                if (productWasPurchased) {
                     Log.d(TAG, "buyOrUseButton.onClick() >> demonstrating product");
                     demonstrateCurrentProduct(ivoryProduct.getName());
-
                 } else {
                     //Purchase the ivoryProduct.
                     Log.d(TAG, "buyOrUseButton.onClick() >> Purchase the ivoryProduct");
@@ -116,34 +119,33 @@ public class IvoryDetailsActivity extends AppCompatActivity {
                     user.updateTotalPurchase(ivoryProduct.getPrice());
                     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
                     userRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user);
-                    songWasPurchased = true;
+                    productWasPurchased = true;
                     buyOrUseButton.setText("USE");
                 }
             }
         });
 
-        FloatingActionButton writeReviewButton = (FloatingActionButton) findViewById(R.id.buttonNewReview);
+        FloatingActionButton writeReviewButton =
+                (FloatingActionButton) findViewById(R.id.buttonNewReview);
         writeReviewButton.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 Log.d(TAG, "writeReviewButton.onClick() >>");
 
-               @Override
-               public void onClick(View view) {
-                   Log.d(TAG, "writeReviewButton.onClick() >>");
+                 if (!productWasPurchased) {
+                     Toast.makeText(IvoryDetailsActivity.this, "Only buyers can review",
+                             Toast.LENGTH_SHORT).show();
+                 } else {
+                     Intent intent = new Intent(getApplicationContext(), ReviewActivity.class);
+                     intent.putExtra("ivoryProduct", ivoryProduct);
+                     intent.putExtra("key", key);
+                     intent.putExtra("user", user);
 
-                   if (!songWasPurchased){
-                       Toast.makeText(IvoryDetailsActivity.this, "Only buyers can review",
-                               Toast.LENGTH_SHORT).show();
-                   } else {
-
-                       Intent intent = new Intent(getApplicationContext(), ReviewActivity.class);
-                       intent.putExtra("ivoryProduct", ivoryProduct);
-                       intent.putExtra("key", key);
-                       intent.putExtra("user", user);
-
-                       startActivity(intent);
-                       finish();
-                   }
-               }
-           }
+                     startActivity(intent);
+                     finish();
+                 }
+             }
+         }
         );
 
         recyclerViewProductReviews = findViewById(R.id.product_reviews);
@@ -153,22 +155,23 @@ public class IvoryDetailsActivity extends AppCompatActivity {
 
         recyclerViewProductReviews.setAdapter(new ReviewsAdapter(reviewsList));
 
-        DatabaseReference productReviewsRef = FirebaseDatabase.getInstance().getReference("Products/" + key + "/reviews");
+        DatabaseReference productReviewsRef = FirebaseDatabase.getInstance().getReference(
+                "Products/" + key + "/reviews");
         productReviewsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            Review review = dataSnapshot.getValue(Review.class);
-                            reviewsList.add(review);
-                        }
-                        recyclerViewProductReviews.getAdapter().notifyDataSetChanged();
-                    }
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Review review = dataSnapshot.getValue(Review.class);
+                    reviewsList.add(review);
+                }
+                recyclerViewProductReviews.getAdapter().notifyDataSetChanged();
+            }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.e(TAG, "onCancelled(Review) >>" + databaseError.getMessage());
-                    }
-                });
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "onCancelled(Review) >>" + databaseError.getMessage());
+            }
+        });
 
     }
 
@@ -193,7 +196,8 @@ public class IvoryDetailsActivity extends AppCompatActivity {
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onFailure(@NonNull Exception exception) {}
+            public void onFailure(@NonNull Exception exception) {
+            }
         });
 
     }

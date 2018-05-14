@@ -43,17 +43,11 @@ public class IvoryStoreMain extends Activity {
     private User myUser;
 
     private RecyclerView recyclerView;
-    private List<IvoryProductWithKey> songsList = new ArrayList<>();
+    private List<IvoryProductWithKey> productsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        Log.e(TAG, "onCreate() >>");
-
         super.onCreate(savedInstanceState);
-//        signInClassName = getIntent().getExtras().getString("sign_in_class");
-
-
         setContentView(R.layout.activity_ivory_store_main);
 
         recyclerView = (RecyclerView) findViewById(R.id.productsList);
@@ -64,7 +58,7 @@ public class IvoryStoreMain extends Activity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         TextView titleTextView = (TextView) findViewById(R.id.textViewUserID);
-        if (currentUser.getEmail() == null){
+        if (currentUser.getEmail() == null) {
             titleTextView.setText("Anonymous");
         } else {
             titleTextView.setText(currentUser.getEmail());
@@ -72,36 +66,27 @@ public class IvoryStoreMain extends Activity {
 
         if (currentUser != null) {
             DatabaseReference myUserRef = FirebaseDatabase.getInstance().getReference("Users/" + currentUser.getUid());
-
             myUserRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
-
-                    Log.e(TAG, "onDataChange(User) >> " + snapshot.getKey());
-
+                    Log.d(TAG, "onDataChange(User) >> " + snapshot.getKey());
                     myUser = snapshot.getValue(User.class);
-
-                    getAllSongs();
-
-                    Log.e(TAG, "onDataChange(User) <<");
-
+                    getAllProducts();
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-
                     Log.e(TAG, "onCancelled(Users) >>" + databaseError.getMessage());
                 }
             });
 
-            Log.e(TAG, "onCreate() <<");
         } else {
             myUser = new User("anonymous@ivorystore.com", 0, new ArrayList<String>());
-            getAllSongs();
+            getAllProducts();
         }
 
         Button signOutButton = (Button) findViewById(R.id.buttonSignOut);
-        signOutButton.setOnClickListener(new View.OnClickListener(){
+        signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 signOut();
@@ -109,8 +94,8 @@ public class IvoryStoreMain extends Activity {
         });
     }
 
-    private void signOut(){
-        for (UserInfo user: FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
+    private void signOut() {
+        for (UserInfo user : FirebaseAuth.getInstance().getCurrentUser().getProviderData()) {
             String providerId = user.getProviderId();
             switch (providerId) {
                 case "google.com":
@@ -132,181 +117,121 @@ public class IvoryStoreMain extends Activity {
         finish();
     }
 
-    private void getAllSongs() {
-
-
-        songsList.clear();
-        if (myUser == null){
+    private void getAllProducts() {
+        productsList.clear();
+        if (myUser == null) {
             signOut();
         }
-        IvoryProductsAdapter ivoryProductsAdapter = new IvoryProductsAdapter(songsList, myUser);
+        IvoryProductsAdapter ivoryProductsAdapter = new IvoryProductsAdapter(productsList, myUser);
         recyclerView.setAdapter(ivoryProductsAdapter);
-
-        //getAllSongsUsingValueListenrs();
-        getAllSongsUsingChildListenrs();
-
-
+        getAllProductsUsingChildListenrs();
     }
-    private void getAllSongsUsingValueListenrs() {
+
+    private void getAllProductsUsingChildListenrs() {
 
         productsRef = FirebaseDatabase.getInstance().getReference("Products");
-
-        productsRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-
-                Log.e(TAG, "onDataChange(Songs) >> " + snapshot.getKey());
-
-                updateSongsList(snapshot);
-
-                Log.e(TAG, "onDataChange(Songs) <<");
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-                Log.e(TAG, "onCancelled(Songs) >>" + databaseError.getMessage());
-            }
-        });
-    }
-    private void getAllSongsUsingChildListenrs() {
-
-        productsRef = FirebaseDatabase.getInstance().getReference("Products");
-
         productsRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot snapshot, String previousChildName){
-
-
-                Log.e(TAG, "onChildAdded(Songs) >> " + snapshot.getKey());
-
-                IvoryProductWithKey ivoryProductWithKey = new IvoryProductWithKey(snapshot.getKey(),snapshot.getValue(IvoryProduct.class));
-                songsList.add(ivoryProductWithKey);
+            public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
+                Log.d(TAG, "onChildAdded(Products) >> " + snapshot.getKey());
+                IvoryProductWithKey ivoryProductWithKey = new IvoryProductWithKey(snapshot.getKey(), snapshot.getValue(IvoryProduct.class));
+                productsList.add(ivoryProductWithKey);
                 recyclerView.getAdapter().notifyDataSetChanged();
-
-                Log.e(TAG, "onChildAdded(Songs) <<");
-
             }
+
             @Override
-            public void onChildChanged(DataSnapshot snapshot, String previousChildName){
+            public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
+                Log.d(TAG, "onChildChanged(Products) >> " + snapshot.getKey());
 
-                Log.e(TAG, "onChildChanged(Songs) >> " + snapshot.getKey());
-
-                IvoryProduct ivoryProduct =snapshot.getValue(IvoryProduct.class);
+                IvoryProduct ivoryProduct = snapshot.getValue(IvoryProduct.class);
                 String key = snapshot.getKey();
 
-                for (int i = 0 ; i < songsList.size() ; i++) {
-                    IvoryProductWithKey ivoryProductWithKey = (IvoryProductWithKey) songsList.get(i);
+                for (int i = 0; i < productsList.size(); i++) {
+                    IvoryProductWithKey ivoryProductWithKey = (IvoryProductWithKey) productsList.get(i);
                     if (ivoryProductWithKey.getKey().equals(snapshot.getKey())) {
                         ivoryProductWithKey.setIvoryProduct(ivoryProduct);
                         recyclerView.getAdapter().notifyDataSetChanged();
                         break;
                     }
                 }
+            }
 
-                Log.e(TAG, "onChildChanged(Songs) <<");
+            @Override
+            public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
+                Log.d(TAG, "onChildMoved(Products) >> " + snapshot.getKey());
+                Log.d(TAG, "onChildMoved(Products) << Doing nothing");
 
             }
+
             @Override
-            public void onChildMoved(DataSnapshot snapshot, String previousChildName){
+            public void onChildRemoved(DataSnapshot snapshot) {
+                Log.d(TAG, "onChildRemoved(Products) >> " + snapshot.getKey());
 
-                Log.e(TAG, "onChildMoved(Songs) >> " + snapshot.getKey());
-
-
-                Log.e(TAG, "onChildMoved(Songs) << Doing nothing");
-
-            }
-            @Override
-            public void onChildRemoved(DataSnapshot snapshot){
-
-                Log.e(TAG, "onChildRemoved(Songs) >> " + snapshot.getKey());
-
-                IvoryProduct ivoryProduct =snapshot.getValue(IvoryProduct.class);
-                String key = snapshot.getKey();
-
-                for (int i = 0 ; i < songsList.size() ; i++) {
-                    IvoryProductWithKey ivoryProductWithKey = (IvoryProductWithKey) songsList.get(i);
+                for (int i = 0; i < productsList.size(); i++) {
+                    IvoryProductWithKey ivoryProductWithKey = (IvoryProductWithKey) productsList.get(i);
                     if (ivoryProductWithKey.getKey().equals(snapshot.getKey())) {
-                        songsList.remove(i);
+                        productsList.remove(i);
                         recyclerView.getAdapter().notifyDataSetChanged();
-                        Log.e(TAG, "onChildRemoved(Songs) >> i="+i);
+                        Log.e(TAG, "onChildRemoved(Products) >> i=" + i);
                         break;
                     }
                 }
-
-                Log.e(TAG, "onChildRemoved(Songs) <<");
-
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
-                Log.e(TAG, "onCancelled(Songs) >>" + databaseError.getMessage());
+                Log.e(TAG, "onCancelled(Products) >>" + databaseError.getMessage());
             }
         });
 
     }
 
-     private void updateSongsList(DataSnapshot snapshot) {
-
-
+    private void updateProductsList(DataSnapshot snapshot) {
         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
             IvoryProduct ivoryProduct = dataSnapshot.getValue(IvoryProduct.class);
-            Log.e(TAG, "updateSongList() >> adding ivoryProduct: " + ivoryProduct.getName());
+            Log.d(TAG, "updateProductsList() >> adding ivoryProduct: " + ivoryProduct.getName());
             String key = dataSnapshot.getKey();
-            songsList.add(new IvoryProductWithKey(key, ivoryProduct));
+            productsList.add(new IvoryProductWithKey(key, ivoryProduct));
         }
-         recyclerView.getAdapter().notifyDataSetChanged();
-
-     }
+        recyclerView.getAdapter().notifyDataSetChanged();
+    }
 
 
     public void onSearchButtonClick(View v) {
+        String searchString = ((EditText) findViewById(R.id.editTextSearchName)).getText().toString();
+        String orderBy = ((RadioButton) findViewById(R.id.radioButtonByElephantAge)).isChecked() ? "elephantAge" : "price";
+        Query searchProductName;
+        Log.d(TAG, "searchString=" + searchString + ",orderBy=" + orderBy);
 
-        String searchString = ((EditText)findViewById(R.id.editTextSearchName)).getText().toString();
-        String orderBy = ((RadioButton)findViewById(R.id.radioButtonByElephantAge)).isChecked() ? "elephantAge" : "price";
-        Query searchSong;
-
-        Log.e(TAG, "onSearchButtonClick() >> searchString="+searchString+ ",orderBy="+orderBy);
-
-        songsList.clear();
-
+        productsList.clear();
         if (searchString != null && !searchString.isEmpty()) {
-            searchSong = productsRef.orderByChild("name").startAt(searchString).endAt(searchString + "\uf8ff");
+            searchProductName = productsRef.orderByChild("name").startAt(searchString).endAt(searchString + "\uf8ff");
         } else {
-            searchSong = productsRef.orderByChild(orderBy);
+            searchProductName = productsRef.orderByChild(orderBy);
         }
 
-
-        searchSong.addValueEventListener(new ValueEventListener() {
+        searchProductName.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-
-                Log.e(TAG, "onDataChange(Query) >> " + snapshot.getKey());
-
-                updateSongsList(snapshot);
-
-                Log.e(TAG, "onDataChange(Query) <<");
-
+                Log.d(TAG, "onDataChange(Query) >> " + snapshot.getKey());
+                updateProductsList(snapshot);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
                 Log.e(TAG, "onCancelled() >>" + databaseError.getMessage());
             }
 
         });
-        Log.e(TAG, "onSearchButtonClick() <<");
     }
 
     public void onRadioButtonCLick(View v) {
         switch (v.getId()) {
             case R.id.radioButtonByPrice:
-                ((RadioButton)findViewById(R.id.radioButtonByElephantAge)).setChecked(false);
+                ((RadioButton) findViewById(R.id.radioButtonByElephantAge)).setChecked(false);
                 break;
             case R.id.radioButtonByElephantAge:
-                ((RadioButton)findViewById(R.id.radioButtonByPrice)).setChecked(false);
+                ((RadioButton) findViewById(R.id.radioButtonByPrice)).setChecked(false);
                 break;
         }
         onSearchButtonClick(v);

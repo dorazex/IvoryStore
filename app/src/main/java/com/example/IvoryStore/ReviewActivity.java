@@ -42,46 +42,40 @@ public class ReviewActivity extends Activity {
         userReviewTextView = findViewById(R.id.newUserReview);
 
         productRef = FirebaseDatabase.getInstance().getReference("Products/" + key);
-        productRef.child("/reviews/" +  FirebaseAuth.getInstance().getCurrentUser().getUid()).
+        productRef.child("/reviews/" + FirebaseAuth.getInstance().getCurrentUser().getUid()).
                 addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                Review review = snapshot.getValue(Review.class);
-                if (review != null) {
-                    userReviewTextView.setText(review.getUserReview());
-                }
-            }
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        Review review = snapshot.getValue(Review.class);
+                        if (review != null) {
+                            userReviewTextView.setText(review.getUserReview());
+                        }
+                    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e(TAG, "onCancelled(Review) >>" + databaseError.getMessage());
-            }
-        });
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.e(TAG, "onCancelled(Review) >>" + databaseError.getMessage());
+                    }
+                });
     }
 
     public void onSubmitClick(View v) {
 
-        Log.d(TAG, "onSubmitClick() called to update review");
+        Log.d(TAG, "onSubmitClick() called to update a review");
 
         productRef.runTransaction(new Transaction.Handler() {
 
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
 
-                Log.d(TAG, "doTransaction() >>" );
+                Log.d(TAG, "doTransaction() >>");
 
                 IvoryProduct ivoryProduct = mutableData.getValue(IvoryProduct.class);
 
-                if (ivoryProduct == null ) {
-                    Log.e(TAG, "doTransaction() << ivoryProduct is null" );
+                if (ivoryProduct == null) {
+                    Log.e(TAG, "doTransaction() << ivoryProduct is null");
                     return Transaction.success(mutableData);
                 }
-
-//                if (prevRating == -1) {
-//                    // Increment the review count and rating only in case the user enters a new review
-//                    ivoryProduct.incrementReviewCount();
-//                } else{
-//                }
 
                 mutableData.setValue(ivoryProduct);
                 Log.d(TAG, "doTransaction() << ivoryProduct was set");
@@ -92,7 +86,7 @@ public class ReviewActivity extends Activity {
             @Override
             public void onComplete(DatabaseError databaseError, boolean committed, DataSnapshot dataSnapshot) {
 
-                Log.d(TAG, "onComplete() >>" );
+                Log.d(TAG, "onComplete() >>");
 
                 if (databaseError != null) {
                     Log.e(TAG, "onComplete() << Error:" + databaseError.getMessage());
@@ -107,10 +101,10 @@ public class ReviewActivity extends Activity {
                     productRef.child("/reviews/" + FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(review);
                 }
 
-                Intent intent = new Intent(getApplicationContext(),IvoryDetailsActivity.class);
+                Intent intent = new Intent(getApplicationContext(), IvoryDetailsActivity.class);
                 intent.putExtra("ivoryProduct", ivoryProduct);
                 intent.putExtra("key", key);
-                intent.putExtra("user",user);
+                intent.putExtra("user", user);
                 startActivity(intent);
                 finish();
             }
