@@ -80,38 +80,61 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/editTextSearchName"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/editTextSearch"
+                        android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        android:layout_weight="3"
                         android:ems="10"
-                        android:hint="Product Name"
+                        android:hint="Search Text"
                         android:inputType="text|textPersonName"
-                        app:layout_constraintEnd_toStartOf="@+id/button_search"
+                        app:layout_constraintEnd_toStartOf="@+id/buttonSearchByName"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
                     <Button
-                        android:id="@+id/button_search"
+                        android:id="@+id/buttonSearchByName"
                         android:layout_width="wrap_content"
                         android:layout_height="45dp"
+                        android:layout_weight="1"
                         android:layout_marginBottom="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginTop="8dp"
-                        android:layout_weight="1"
-                        android:onClick="onSearchButtonClick"
-                        android:text="Search"
+                        android:onClick="onSearchByNameButtonClick"
+                        android:text="Search Name"
+                        android:textAlignment="center"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.0" />
+
+                    <Button
+                        android:id="@+id/buttonSearchByOrigin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_weight="1"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="8dp"
+                        android:onClick="onSearchByOriginButtonClick"
+                        android:text="Search Origin"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -130,6 +153,7 @@
                         android:onClick="onRadioButtonCLick"
                         android:text="By price"
                         android:textColor="@color/store_main_filter_text"
+                        android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -141,6 +165,7 @@
                         android:onClick="onRadioButtonCLick"
                         android:text="By elephant age"
                         android:textColor="@color/store_main_filter_text"
+                        android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
                 </LinearLayout>

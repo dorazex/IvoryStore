@@ -83,13 +83,13 @@ public class IvoryDetailsActivity extends AppCompatActivity {
 
         ((TextView) findViewById(R.id.textViewName)).setText(ivoryProduct.getName());
         ((TextView) findViewById(R.id.textViewElephantAge)).setText(
-                "Age:" + Integer.toString(ivoryProduct.getElephantAge()));
+                "Age: " + Integer.toString(ivoryProduct.getElephantAge()));
         ((TextView) findViewById(R.id.textViewOriginContinent)).setText(
-                "Origin:" + ivoryProduct.getOriginContinent());
+                "Origin: " + ivoryProduct.getOriginContinent());
         ((TextView) findViewById(R.id.textViewDeathReason)).setText(
-                "Death Reason:" + ivoryProduct.getDeathReason());
+                "Death Reason: " + ivoryProduct.getDeathReason());
         ((TextView) findViewById(R.id.textViewWeight)).setText(
-                "Weight:" + Integer.toString(ivoryProduct.getWeight()));
+                "Weight: " + Integer.toString(ivoryProduct.getWeight()));
 
         buyOrUseButton = ((Button) findViewById(R.id.buttonBuyUse));
         buyOrUseButton.setText("$" + ivoryProduct.getPrice());
@@ -108,6 +108,13 @@ public class IvoryDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "buyOrUseButton.onClick() on product name = " + ivoryProduct.getName());
+
+                if (FirebaseAuth.getInstance().getCurrentUser().isAnonymous()){
+                    Toast.makeText(IvoryDetailsActivity.this,
+                            "Anonymous cannot purchase.\nPlease log in",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 if (productWasPurchased) {
                     Log.d(TAG, "buyOrUseButton.onClick() >> demonstrating product");

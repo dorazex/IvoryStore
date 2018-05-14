@@ -45,6 +45,8 @@ public class IvoryStoreMain extends Activity {
     private RecyclerView recyclerView;
     private List<IvoryProductWithKey> productsList = new ArrayList<>();
 
+    private String lastSearchedField;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -196,21 +198,22 @@ public class IvoryStoreMain extends Activity {
         recyclerView.getAdapter().notifyDataSetChanged();
     }
 
-
-    public void onSearchButtonClick(View v) {
-        String searchString = ((EditText) findViewById(R.id.editTextSearchName)).getText().toString();
-        String orderBy = ((RadioButton) findViewById(R.id.radioButtonByElephantAge)).isChecked() ? "elephantAge" : "price";
-        Query searchProductName;
+    private void onSearchByTextField(String fieldName) {
+        lastSearchedField = fieldName;
+        String searchString = ((EditText) findViewById(R.id.editTextSearch)).getText().toString();
+        String orderBy = ((RadioButton) findViewById(R.id.radioButtonByElephantAge)).isChecked()
+                ? "elephantAge" : "price";
+        Query querySearch;
         Log.d(TAG, "searchString=" + searchString + ",orderBy=" + orderBy);
 
         productsList.clear();
         if (searchString != null && !searchString.isEmpty()) {
-            searchProductName = productsRef.orderByChild("name").startAt(searchString).endAt(searchString + "\uf8ff");
+            querySearch = productsRef.orderByChild(fieldName).startAt(searchString).endAt(searchString + "\uf8ff");
         } else {
-            searchProductName = productsRef.orderByChild(orderBy);
+            querySearch = productsRef.orderByChild(orderBy);
         }
 
-        searchProductName.addValueEventListener(new ValueEventListener() {
+        querySearch.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Log.d(TAG, "onDataChange(Query) >> " + snapshot.getKey());
@@ -225,16 +228,27 @@ public class IvoryStoreMain extends Activity {
         });
     }
 
+    public void onSearchByNameButtonClick(View v) {
+        onSearchByTextField("name");
+    }
+
+    public void onSearchByOriginButtonClick(View v) {
+        onSearchByTextField("originContinent");
+    }
+
     public void onRadioButtonCLick(View v) {
         switch (v.getId()) {
             case R.id.radioButtonByPrice:
+                ((RadioButton) findViewById(R.id.radioButtonByPrice)).setChecked(true);
                 ((RadioButton) findViewById(R.id.radioButtonByElephantAge)).setChecked(false);
                 break;
             case R.id.radioButtonByElephantAge:
                 ((RadioButton) findViewById(R.id.radioButtonByPrice)).setChecked(false);
+                ((RadioButton) findViewById(R.id.radioButtonByElephantAge)).setChecked(true);
                 break;
         }
-        onSearchButtonClick(v);
+        ((EditText) findViewById(R.id.editTextSearch)).setText("");
+        onSearchByTextField(lastSearchedField);
     }
 }
 
