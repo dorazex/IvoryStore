@@ -89,9 +89,11 @@ public class IvoryProductsAdapter extends RecyclerView.Adapter<IvoryProductsAdap
         holder.getDeathReasonTextView().setText(ivoryProduct.getDeathReason());
         holder.getElephantAgeTextView().setText(Integer.toString(ivoryProduct.getElephantAge()));
 
-        int reviewsCount = ivoryProduct.getReviews().size();
-        if (reviewsCount > 0) {
-            holder.getReviewsCountTextView().setText("("+ reviewsCount+")");
+        if (ivoryProduct.getReviews() != null) {
+            int reviewsCount = ivoryProduct.getReviews().size();
+            if (reviewsCount > 0) {
+                holder.getReviewsCountTextView().setText("(" + reviewsCount + ")");
+            }
         }
 
         //Check if the user already purchased the ivoryProduct if set the text to Play

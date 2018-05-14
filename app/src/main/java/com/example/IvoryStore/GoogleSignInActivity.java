@@ -46,15 +46,15 @@ public class GoogleSignInActivity extends Activity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_google_sign_in);
-
-        // Views
-        mStatusTextView = findViewById(R.id.GoogleStatusTextView);
-        mDetailTextView = findViewById(R.id.GoogleDetailTextView);
-
-        // Button listeners
-        findViewById(R.id.GoogleSignInButton).setOnClickListener(this);
-        findViewById(R.id.GoogleSignOutButton).setOnClickListener(this);
+//        setContentView(R.layout.activity_google_sign_in);
+//
+//        // Views
+//        mStatusTextView = findViewById(R.id.GoogleStatusTextView);
+//        mDetailTextView = findViewById(R.id.GoogleDetailTextView);
+//
+//        // Button listeners
+//        findViewById(R.id.GoogleSignInButton).setOnClickListener(this);
+//        findViewById(R.id.GoogleSignOutButton).setOnClickListener(this);
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -153,9 +153,7 @@ public class GoogleSignInActivity extends Activity implements
             startActivity(intent);
             finish();
         } else {
-            Intent intent = new Intent(getBaseContext(), SignInActivity.class);
-            startActivity(intent);
-            finish();
+            signIn();
         }
     }
 

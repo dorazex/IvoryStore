@@ -4,6 +4,7 @@ package com.example.IvoryStore.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,9 +17,9 @@ public class IvoryProduct implements Parcelable {
     private int weight;
     private int price;
     private String image;
-    private List<Review> reviews;
+    private HashMap<String,Review> reviews;
 
-    public IvoryProduct(String name, String deathReason, String origin, int elephantAge, String image, int weight, int price, List<Review> reviews) {
+    public IvoryProduct(String name, String deathReason, String origin, int elephantAge, String image, int weight, int price, HashMap<String,Review> reviews) {
         this.name = name;
         this.deathReason = deathReason;
         this.origin = origin;
@@ -40,7 +41,7 @@ public class IvoryProduct implements Parcelable {
         this.image = in.readString();
         this.weight = in.readInt();
         this.price = in.readInt();
-        in.readTypedList(this.reviews, Review.CREATOR);
+        in.readHashMap(Review.class.getClassLoader());
     }
 
     public String getName() {
@@ -92,7 +93,7 @@ public class IvoryProduct implements Parcelable {
         this.price = price;
     }
 
-    public List<Review> getReviews(){
+    public HashMap<String,Review> getReviews(){
         return this.reviews;
     }
 

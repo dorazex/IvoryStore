@@ -3,7 +3,6 @@ package com.example.IvoryStore;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,13 +15,9 @@ import android.widget.TextView;
 
 import com.example.IvoryStore.model.IvoryProduct;
 import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -43,18 +38,12 @@ import java.util.List;
 public class IvoryStoreMain extends Activity {
 
     private final String TAG = "IvoryStoreMain";
-    private DatabaseReference allSongsRef;
-    private DatabaseReference myUserRef;
-//    private String signInClassName;
 
-
-    private List<IvoryProductWithKey> songsList = new ArrayList<>();
-
-    private RecyclerView recyclerView;
-    private TextView titleTextView;
-    private IvoryProductsAdapter ivoryProductsAdapter;
+    private DatabaseReference productsRef;
     private User myUser;
 
+    private RecyclerView recyclerView;
+    private List<IvoryProductWithKey> songsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,12 +61,13 @@ public class IvoryStoreMain extends Activity {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        titleTextView = (TextView) findViewById(R.id.textViewUserID);
-
         FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        TextView titleTextView = (TextView) findViewById(R.id.textViewUserID);
+        titleTextView.setText(fbUser.getEmail());
+
         if (fbUser != null) {
-            myUserRef = FirebaseDatabase.getInstance().getReference("Users/" + fbUser.getUid());
+            DatabaseReference myUserRef = FirebaseDatabase.getInstance().getReference("Users/" + fbUser.getUid());
 
             myUserRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -138,7 +128,7 @@ public class IvoryStoreMain extends Activity {
 
 
         songsList.clear();
-        ivoryProductsAdapter = new IvoryProductsAdapter(songsList,myUser);
+        IvoryProductsAdapter ivoryProductsAdapter = new IvoryProductsAdapter(songsList, myUser);
         recyclerView.setAdapter(ivoryProductsAdapter);
 
         //getAllSongsUsingValueListenrs();
@@ -148,9 +138,9 @@ public class IvoryStoreMain extends Activity {
     }
     private void getAllSongsUsingValueListenrs() {
 
-        allSongsRef = FirebaseDatabase.getInstance().getReference("Products");
+        productsRef = FirebaseDatabase.getInstance().getReference("Products");
 
-        allSongsRef.addValueEventListener(new ValueEventListener() {
+        productsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
 
@@ -171,9 +161,9 @@ public class IvoryStoreMain extends Activity {
     }
     private void getAllSongsUsingChildListenrs() {
 
-        allSongsRef = FirebaseDatabase.getInstance().getReference("Products");
+        productsRef = FirebaseDatabase.getInstance().getReference("Products");
 
-        allSongsRef.addChildEventListener(new ChildEventListener() {
+        productsRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String previousChildName){
 
@@ -271,9 +261,9 @@ public class IvoryStoreMain extends Activity {
         songsList.clear();
 
         if (searchString != null && !searchString.isEmpty()) {
-            searchSong = allSongsRef.orderByChild("name").startAt(searchString).endAt(searchString + "\uf8ff");
+            searchSong = productsRef.orderByChild("name").startAt(searchString).endAt(searchString + "\uf8ff");
         } else {
-            searchSong = allSongsRef.orderByChild(orderBy);
+            searchSong = productsRef.orderByChild(orderBy);
         }
 
 
