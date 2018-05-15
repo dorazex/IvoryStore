@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -53,9 +54,9 @@ public class SignInActivity extends Activity {
                 });
 
 
-        Button emailButton = (Button) findViewById(R.id.ChooseEmailSignInButton);
-        Button googleButton = (Button) findViewById(R.id.ChooseGoogleSignInButton);
-        Button facebookButton = (Button) findViewById(R.id.ChooseFacebookSignInButton);
+        ImageButton emailButton = (ImageButton) findViewById(R.id.ChooseEmailSignInButton);
+        ImageButton googleButton = (ImageButton) findViewById(R.id.ChooseGoogleSignInButton);
+        ImageButton facebookButton = (ImageButton) findViewById(R.id.ChooseFacebookSignInButton);
         Button anonymousButton = (Button) findViewById(R.id.ChooseAnonymousSignInButton);
 
         // Enable/Disable anonymous user "sign in" based on remote config

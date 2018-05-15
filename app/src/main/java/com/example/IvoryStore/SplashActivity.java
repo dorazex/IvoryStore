@@ -21,7 +21,7 @@ public class SplashActivity extends Activity {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
-                    sleep(1000);
+                    sleep(3000);
 
                     Intent intent = new Intent(getApplicationContext(),
                             user == null ? SignInActivity.class : IvoryStoreMain.class);

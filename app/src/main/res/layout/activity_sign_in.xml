@@ -2,11 +2,24 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/color_product_card_background"
     tools:context="com.example.IvoryStore.SignInActivity">
+
+    <TextView
+        android:id="@+id/textViewDisclaimer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="This app is a PROTEST against elephants poaching. It is intended to increase awareness of the atrocities that elephants face in Asia and Africa.\nPlease consider donating here:\n\nwww.savetheelephants.org"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="15sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/ChooseSignInTextView"
@@ -18,37 +31,87 @@
         android:textSize="24sp"
         android:textStyle="bold" />
 
-    <Button
+    <ImageButton
         android:id="@+id/ChooseEmailSignInButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:layout_weight="1"
-        android:text="@string/email_sign_in_button_text" />
+        android:layout_height="80dp"
+        android:background="@color/color_product_card_background"
+        android:paddingBottom="5dp"
+        android:paddingLeft="60dp"
+        android:paddingRight="60dp"
+        android:paddingTop="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/signin_email" />
 
-    <Button
+
+    <ImageButton
         android:id="@+id/ChooseGoogleSignInButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:layout_weight="1"
-        android:text="@string/google_sign_in_button_text" />
+        android:layout_height="62dp"
+        android:layout_marginLeft="77dp"
+        android:layout_marginRight="77dp"
+        android:background="@color/color_product_card_background"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/signin_google" />
 
-    <Button
+    <ImageButton
         android:id="@+id/ChooseFacebookSignInButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:layout_weight="1"
-        android:text="@string/facebook_sign_in_button_text" />
+        android:layout_height="70dp"
+        android:background="@color/color_product_card_background"
+        android:paddingLeft="75dp"
+        android:paddingRight="75dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/signin_facebook" />
 
-    <Button
-        android:id="@+id/ChooseAnonymousSignInButton"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:layout_weight="1"
-        android:text="@string/anonymous_sign_in_button_text" />
+        android:layout_height="match_parent"
+        android:paddingLeft="77dp"
+        android:paddingRight="77dp">
+
+        <Button
+            android:id="@+id/ChooseAnonymousSignInButton"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_margin="0dp"
+            android:text="@string/anonymous_sign_in_button_text" />
+    </FrameLayout>
+
+
+    <!--<Button-->
+        <!--android:id="@+id/ChooseEmailSignInButton"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="15dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="@string/email_sign_in_button_text" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/ChooseGoogleSignInButton"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="15dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="@string/google_sign_in_button_text" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/ChooseFacebookSignInButton"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="15dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="@string/facebook_sign_in_button_text" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/ChooseAnonymousSignInButton"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="15dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="@string/anonymous_sign_in_button_text" />-->
 
 
 
