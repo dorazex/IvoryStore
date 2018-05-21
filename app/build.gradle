@@ -49,6 +49,10 @@ dependencies {
 //    implementation 'com.google.firebase:firebase-auth:11.0.4'
     implementation 'com.firebaseui:firebase-ui-storage:0.6.0'
     implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.google.firebase:firebase-core:15.0.2'
+    implementation 'com.appsee:appsee-android:+'
+    implementation 'com.flurry.android:analytics:10.0.0@aar'
+    implementation 'com.mixpanel.android:mixpanel-android:5.+'
 }
 
 
