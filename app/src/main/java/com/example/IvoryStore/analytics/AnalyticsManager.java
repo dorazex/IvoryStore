@@ -37,7 +37,7 @@ public class AnalyticsManager {
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
 
-        Appsee.start();
+//        Appsee.start();
 
     }
 
@@ -51,10 +51,10 @@ public class AnalyticsManager {
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH,params);
 
 
-        //AppSee
-        Map<String, Object> eventParams2 = new HashMap<String, Object>();
-        eventParams2.put("search term", searchString);
-        Appsee.addEvent(eventName,eventParams2);
+//        //AppSee
+//        Map<String, Object> eventParams2 = new HashMap<String, Object>();
+//        eventParams2.put("search term", searchString);
+//        Appsee.addEvent(eventName,eventParams2);
 
 
     }
@@ -66,10 +66,10 @@ public class AnalyticsManager {
         params.putString(FirebaseAnalytics.Param.SIGN_UP_METHOD, signupMethod);
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP,params);
 
-        //AppSee
-        Map<String, Object> eventParams2 = new HashMap<String, Object>();
-        eventParams2.put("signup method", signupMethod);
-        Appsee.addEvent(eventName,eventParams2);
+//        //AppSee
+//        Map<String, Object> eventParams2 = new HashMap<String, Object>();
+//        eventParams2.put("signup method", signupMethod);
+//        Appsee.addEvent(eventName,eventParams2);
 
     }
 
@@ -81,11 +81,11 @@ public class AnalyticsManager {
         params.putString(FirebaseAnalytics.Param.SIGN_UP_METHOD, loginMethod);
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN,params);
 
-        //AppSee
-        Map<String, Object> eventParams2 = new HashMap<String, Object>();
-        eventParams2.put("signup method", loginMethod);
-
-        Appsee.addEvent(eventName,eventParams2);
+//        //AppSee
+//        Map<String, Object> eventParams2 = new HashMap<String, Object>();
+//        eventParams2.put("signup method", loginMethod);
+//
+//        Appsee.addEvent(eventName,eventParams2);
 
     }
 
@@ -102,17 +102,17 @@ public class AnalyticsManager {
         mFirebaseAnalytics.logEvent(event,params);
 
 
-        //AppSee
-        Map<String, Object> eventParams2 = new HashMap<String, Object>();
-        eventParams2.put("product_name", product.getName());
-        eventParams2.put("product_death_reason", product.getDeathReason());
-        eventParams2.put("product_origin_continent", product.getOriginContinent());
-        eventParams2.put("product_price",product.getPrice());
-        eventParams2.put("product_weight",product.getWeight());
-        eventParams2.put("product_elephant_age",product.getElephantAge());
-
-
-        Appsee.addEvent(event,eventParams2);
+//        //AppSee
+//        Map<String, Object> eventParams2 = new HashMap<String, Object>();
+//        eventParams2.put("product_name", product.getName());
+//        eventParams2.put("product_death_reason", product.getDeathReason());
+//        eventParams2.put("product_origin_continent", product.getOriginContinent());
+//        eventParams2.put("product_price",product.getPrice());
+//        eventParams2.put("product_weight",product.getWeight());
+//        eventParams2.put("product_elephant_age",product.getElephantAge());
+//
+//
+//        Appsee.addEvent(event,eventParams2);
 
     }
 
@@ -124,16 +124,16 @@ public class AnalyticsManager {
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.ECOMMERCE_PURCHASE,params);
 
 
-        //AppSee
-        Map<String, Object> eventParams2 = new HashMap<String, Object>();
-        eventParams2.put("product_name", product.getName());
-        eventParams2.put("product_death_reason", product.getDeathReason());
-        eventParams2.put("product_origin_continent", product.getOriginContinent());
-        eventParams2.put("product_price",product.getPrice());
-        eventParams2.put("product_weight",product.getWeight());
-        eventParams2.put("product_elephant_age",product.getElephantAge());
-
-        Appsee.addEvent(eventName,eventParams2);
+//        //AppSee
+//        Map<String, Object> eventParams2 = new HashMap<String, Object>();
+//        eventParams2.put("product_name", product.getName());
+//        eventParams2.put("product_death_reason", product.getDeathReason());
+//        eventParams2.put("product_origin_continent", product.getOriginContinent());
+//        eventParams2.put("product_price",product.getPrice());
+//        eventParams2.put("product_weight",product.getWeight());
+//        eventParams2.put("product_elephant_age",product.getElephantAge());
+//
+//        Appsee.addEvent(eventName,eventParams2);
 
     }
 
@@ -151,20 +151,20 @@ public class AnalyticsManager {
 
         mFirebaseAnalytics.logEvent(eventName,params);
 
-        //AppSee
-        Map<String, Object> eventParams2 = new HashMap<String, Object>();
-        eventParams2.put("product_name", product.getName());
-        eventParams2.put("product_death_reason", product.getDeathReason());
-        eventParams2.put("product_origin_continent", product.getOriginContinent());
-        eventParams2.put("product_price",product.getPrice());
-        eventParams2.put("product_weight",product.getWeight());
-        eventParams2.put("product_elephant_age",product.getElephantAge());
-
-        Appsee.addEvent(eventName,eventParams2);
+//        //AppSee
+//        Map<String, Object> eventParams2 = new HashMap<String, Object>();
+//        eventParams2.put("product_name", product.getName());
+//        eventParams2.put("product_death_reason", product.getDeathReason());
+//        eventParams2.put("product_origin_continent", product.getOriginContinent());
+//        eventParams2.put("product_price",product.getPrice());
+//        eventParams2.put("product_weight",product.getWeight());
+//        eventParams2.put("product_elephant_age",product.getElephantAge());
+//
+//        Appsee.addEvent(eventName,eventParams2);
 
     }
 
-    public void setUserID(String id, boolean newUser) {
+    public void setUserID(String id) {
 
         mFirebaseAnalytics.setUserId(id);
 

@@ -15,26 +15,31 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name="com.example.IvoryStore.EmailPasswordActivity" />
-        <activity android:name="com.example.IvoryStore.GoogleSignInActivity" />
-        <activity android:name="com.example.IvoryStore.FacebookSignInActivity" />
-        <activity android:name="com.example.IvoryStore.SignInActivity" />
-        <activity android:name="com.example.IvoryStore.AnonymousHomeActivity" />
-
-        <activity android:name="com.example.IvoryStore.IvoryStoreMain"
-            android:theme="@android:style/Theme.NoTitleBar"/>
-        <activity android:name="com.example.IvoryStore.SplashActivity"
+        <activity android:name=".EmailPasswordActivity" />
+        <activity android:name=".GoogleSignInActivity" />
+        <activity android:name=".FacebookSignInActivity" />
+        <activity android:name=".SignInActivity" />
+        <activity android:name=".GetUserInfoActivity" />
+        <activity android:name=".AnonymousHomeActivity" />
+        <activity
+            android:name=".IvoryStoreMain"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".SplashActivity"
             android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.IvoryStore.IvoryDetailsActivity"
-            android:theme="@style/Theme.AppCompat"/>
-        <activity android:name="com.example.IvoryStore.ReviewActivity"
-            android:theme="@style/Theme.AppCompat"/>
-
+        <activity
+            android:name=".IvoryDetailsActivity"
+            android:theme="@style/Theme.AppCompat" />
+        <activity
+            android:name=".ReviewActivity"
+            android:theme="@style/Theme.AppCompat" />
+        <activity android:name=".GetUserInfoActivity"></activity>
     </application>
 
 </manifest>

@@ -9,11 +9,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.IvoryStore.analytics.AnalyticsManager;
 import com.example.IvoryStore.model.User;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.internal.CallbackManagerImpl;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -24,8 +26,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Demonstrate Firebase Authentication using a Facebook access token.
@@ -34,7 +39,7 @@ public class FacebookSignInActivity extends Activity implements
         View.OnClickListener {
 
     private static final String TAG = "FacebookLogin";
-
+    static final int GET_USER_DETAILS_REQUEST = 1;
     private TextView mStatusTextView;
 
     // [START declare_auth]
@@ -42,6 +47,7 @@ public class FacebookSignInActivity extends Activity implements
     // [END declare_auth]
 
     private CallbackManager mCallbackManager;
+    private AnalyticsManager analyticsManager = AnalyticsManager.getInstance();
 
 
     @Override
@@ -108,8 +114,34 @@ public class FacebookSignInActivity extends Activity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Pass the activity result back to the Facebook SDK
-        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CallbackManagerImpl.RequestCodeOffset.Login.toRequestCode()) {
+            // Pass the activity result back to the Facebook SDK
+            mCallbackManager.onActivityResult(requestCode, resultCode, data);
+        } else if (requestCode == GET_USER_DETAILS_REQUEST){
+            if (resultCode == RESULT_OK) {
+                Log.d(TAG, "getting result from user details request");
+
+                Bundle extras = data.getExtras();
+                String userFirstName = (String) extras.get("user_first_name");
+                String userLastName = (String) extras.get("user_last_name");
+                String userAge = (String) extras.get("user_age");
+                String userCountry = (String) extras.get("user_country");
+                String userCity = (String) extras.get("user_city");
+
+                analyticsManager.setUserID(mAuth.getCurrentUser().getUid());
+                analyticsManager.setUserProperty("first_name", userFirstName);
+                analyticsManager.setUserProperty("last_name", userLastName);
+                analyticsManager.setUserProperty("age", userAge);
+                analyticsManager.setUserProperty("country", userCountry);
+                analyticsManager.setUserProperty("city", userCity);
+
+                Log.d(TAG, "user properties set");
+
+                updateUI(mAuth.getCurrentUser());
+
+            }
+
+        }
     }
     // [END on_activity_result]
 
@@ -142,20 +174,32 @@ public class FacebookSignInActivity extends Activity implements
     // [END auth_with_facebook]
 
     private void createNewUser() {
+        Log.d(TAG, "creating new user");
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
+        final DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
 
-        Log.e(TAG, "createNewUser() >>");
-
-        FirebaseUser fbUser = mAuth.getCurrentUser();
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
-
-        if (fbUser == null) {
+        if (currentUser == null) {
             Log.e(TAG, "createNewUser() << Error user is null");
             return;
         }
 
-        userRef.child(fbUser.getUid()).setValue(new User(fbUser.getEmail(),0,null));
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (!snapshot.hasChild(currentUser.getUid())) {
+                    userRef.child(currentUser.getUid()).setValue(new User(currentUser.getEmail(),0,null));
+                    Log.d(TAG, "starting intent to get user details");
+                    Intent getUserDetailsIntent = new Intent(getApplicationContext(), GetUserInfoActivity.class);
+                    startActivityForResult(getUserDetailsIntent, GET_USER_DETAILS_REQUEST);
+                }
+            }
 
-        Log.e(TAG, "createNewUser() <<");
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     public void signOut() {

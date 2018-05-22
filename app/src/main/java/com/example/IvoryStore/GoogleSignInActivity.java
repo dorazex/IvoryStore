@@ -1,6 +1,7 @@
 package com.example.IvoryStore;
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.IvoryStore.analytics.AnalyticsManager;
 import com.example.IvoryStore.model.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -34,11 +36,12 @@ public class GoogleSignInActivity extends Activity implements
         View.OnClickListener {
 
     private static final String TAG = "GoogleActivity";
-
+    static final int GET_USER_DETAILS_REQUEST = 1;
     private static final int RC_SIGN_IN = 9001;
     private FirebaseAuth mAuth;
 
     private GoogleSignInClient mGoogleSignInClient;
+    private AnalyticsManager analyticsManager = AnalyticsManager.getInstance();
 
     private TextView mStatusTextView;
     private TextView mDetailTextView;
@@ -89,7 +92,32 @@ public class GoogleSignInActivity extends Activity implements
                 Log.w(TAG, "Google sign in failed", e);
                 updateUI(null);
             }
+        } else if (requestCode == GET_USER_DETAILS_REQUEST){
+            if (resultCode == RESULT_OK) {
+                Log.d(TAG, "getting result from user details request");
+
+                Bundle extras = data.getExtras();
+                String userFirstName = (String) extras.get("user_first_name");
+                String userLastName = (String) extras.get("user_last_name");
+                String userAge = (String) extras.get("user_age");
+                String userCountry = (String) extras.get("user_country");
+                String userCity = (String) extras.get("user_city");
+
+                analyticsManager.setUserID(mAuth.getCurrentUser().getUid());
+                analyticsManager.setUserProperty("first_name", userFirstName);
+                analyticsManager.setUserProperty("last_name", userLastName);
+                analyticsManager.setUserProperty("age", userAge);
+                analyticsManager.setUserProperty("country", userCountry);
+                analyticsManager.setUserProperty("city", userCity);
+
+                Log.d(TAG, "user properties set");
+
+                updateUI(mAuth.getCurrentUser());
+
+            }
+
         }
+
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -117,6 +145,7 @@ public class GoogleSignInActivity extends Activity implements
     }
 
     private void createNewUser() {
+        Log.d(TAG, "creating new user");
         final FirebaseUser currentUser = mAuth.getCurrentUser();
         final DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
 
@@ -130,6 +159,9 @@ public class GoogleSignInActivity extends Activity implements
             public void onDataChange(DataSnapshot snapshot) {
                 if (!snapshot.hasChild(currentUser.getUid())) {
                     userRef.child(currentUser.getUid()).setValue(new User(currentUser.getEmail(),0,null));
+                    Log.d(TAG, "starting intent to get user details");
+                    Intent getUserDetailsIntent = new Intent(getApplicationContext(), GetUserInfoActivity.class);
+                    startActivityForResult(getUserDetailsIntent, GET_USER_DETAILS_REQUEST);
                 }
             }
 
@@ -138,6 +170,7 @@ public class GoogleSignInActivity extends Activity implements
 
             }
         });
+
     }
 
     private void signIn() {

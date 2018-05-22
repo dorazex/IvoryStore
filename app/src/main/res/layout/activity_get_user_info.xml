@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.IvoryStore.GetUserInfoActivity">
+
+    <LinearLayout
+        android:id="@+id/layoutUserPropertiesFirstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorLightGrey"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:id="@+id/textViewUserFirstName"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="7dp"
+            android:text="First Name: "
+            android:textSize="21sp" />
+
+        <EditText
+            android:id="@+id/editTextUserFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="e.g. John"
+            android:inputType="textPersonName"
+            android:padding="7dp"
+            android:textSize="21sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutUserPropertiesLastName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorLightGrey"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textViewUserLastName"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="7dp"
+            android:text="Last Name: "
+            android:textSize="21sp" />
+
+        <EditText
+            android:id="@+id/editTextUserLastName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="e.g. Doe"
+            android:inputType="textPersonName"
+            android:padding="7dp"
+            android:textSize="21sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutUserPropertiesAge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorLightGrey"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textViewUserAge"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="7dp"
+            android:text="Age: "
+            android:textSize="21sp" />
+
+        <EditText
+            android:id="@+id/editTextUserAge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="e.g. 29"
+            android:inputType="number"
+            android:padding="7dp"
+            android:textSize="21sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutUserPropertiesCountry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorLightGrey"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textViewUserCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="7dp"
+            android:text="Country: "
+            android:textSize="21sp" />
+
+        <EditText
+            android:id="@+id/editTextUserCountry"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="e.g. Israel"
+            android:inputType="text"
+            android:padding="7dp"
+            android:textSize="21sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutUserPropertiesCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorLightGrey"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textViewUserCity"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="7dp"
+            android:text="City: "
+            android:textSize="21sp" />
+
+        <EditText
+            android:id="@+id/editTextUserCity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="e.g. Tel Aviv"
+            android:inputType="text"
+            android:padding="7dp"
+            android:textSize="21sp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonSubmitUserProperties"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="50dp"
+        android:text="Submit" />
+
+</LinearLayout>

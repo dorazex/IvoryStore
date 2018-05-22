@@ -11,28 +11,34 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.IvoryStore.analytics.AnalyticsManager;
 import com.example.IvoryStore.model.User;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class EmailPasswordActivity extends Activity implements
         View.OnClickListener {
 
     private static final String TAG = "EmailPassword";
-
+    static final int GET_USER_DETAILS_REQUEST = 1;
     private TextView mStatusTextView;
     private TextView mDetailTextView;
     private EditText mEmailField;
     private EditText mPasswordField;
 
-    // [START declare_auth]
     private FirebaseAuth mAuth;
-    // [END declare_auth]
+    private AnalyticsManager analyticsManager = AnalyticsManager.getInstance();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,22 +103,67 @@ public class EmailPasswordActivity extends Activity implements
         // [END create_user_with_email]
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == GET_USER_DETAILS_REQUEST){
+            if (resultCode == RESULT_OK) {
+                Log.d(TAG, "getting result from user details request");
+
+                Bundle extras = data.getExtras();
+                String userFirstName = (String) extras.get("user_first_name");
+                String userLastName = (String) extras.get("user_last_name");
+                String userAge = (String) extras.get("user_age");
+                String userCountry = (String) extras.get("user_country");
+                String userCity = (String) extras.get("user_city");
+
+                analyticsManager.setUserID(mAuth.getCurrentUser().getUid());
+                analyticsManager.setUserProperty("first_name", userFirstName);
+                analyticsManager.setUserProperty("last_name", userLastName);
+                analyticsManager.setUserProperty("age", userAge);
+                analyticsManager.setUserProperty("country", userCountry);
+                analyticsManager.setUserProperty("city", userCity);
+
+                Log.d(TAG, "user properties set");
+
+                updateUI(mAuth.getCurrentUser());
+
+            }
+
+        }
+
+    }
+
     private void createNewUser() {
+        Log.d(TAG, "creating new user");
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
+        final DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
 
-        Log.e(TAG, "createNewUser() >>");
-
-        FirebaseUser fbUser = mAuth.getCurrentUser();
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
-
-        if (fbUser == null) {
+        if (currentUser == null) {
             Log.e(TAG, "createNewUser() << Error user is null");
             return;
         }
 
-        userRef.child(fbUser.getUid()).setValue(new User(fbUser.getEmail(),0,null));
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (!snapshot.hasChild(currentUser.getUid())) {
+                    userRef.child(currentUser.getUid()).setValue(new User(currentUser.getEmail(),0,null));
+                    Log.d(TAG, "starting intent to get user details");
+                    Intent getUserDetailsIntent = new Intent(getApplicationContext(), GetUserInfoActivity.class);
+                    startActivityForResult(getUserDetailsIntent, GET_USER_DETAILS_REQUEST);
+                }
+            }
 
-        Log.e(TAG, "createNewUser() <<");
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
+
 
     private void signIn(String email, String password) {
         Log.d(TAG, "signIn:" + email);
