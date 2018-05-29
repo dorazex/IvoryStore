@@ -50,7 +50,7 @@ public class AnonymousHomeActivity extends Activity {
                             Log.d(TAG, "signInAnonymously:success");
                             createNewUser();
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+//                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInAnonymously:failure", task.getException());

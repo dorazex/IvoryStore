@@ -78,8 +78,6 @@ public class EmailPasswordActivity extends Activity implements
             return;
         }
 
-
-        // [START create_user_with_email]
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -89,7 +87,7 @@ public class EmailPasswordActivity extends Activity implements
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             createNewUser();
-                            updateUI(user);
+//                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -100,7 +98,6 @@ public class EmailPasswordActivity extends Activity implements
 
                     }
                 });
-        // [END create_user_with_email]
     }
 
     @Override

@@ -72,32 +72,36 @@ public class SignInActivity extends Activity {
         emailButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), EmailPasswordActivity.class);
+                Intent intent = new Intent(getApplicationContext(), EmailPasswordActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
         googleButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), GoogleSignInActivity.class);
+                Intent intent = new Intent(getApplicationContext(), GoogleSignInActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
         facebookButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), FacebookSignInActivity.class);
+                Intent intent = new Intent(getApplicationContext(), FacebookSignInActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
         anonymousButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), AnonymousHomeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), AnonymousHomeActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 

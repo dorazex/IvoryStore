@@ -168,7 +168,7 @@ public class AnalyticsManager {
 
         mFirebaseAnalytics.setUserId(id);
 
-        Appsee.setUserId(id);
+//        Appsee.setUserId(id);
     }
 
     public void setUserProperty(String name , String value) {

@@ -24,7 +24,6 @@ public class SplashActivity extends Activity {
                 try{
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-
                     sleep(3000);
 
                     Intent intent = new Intent(getApplicationContext(),

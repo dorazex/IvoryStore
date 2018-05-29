@@ -39,7 +39,6 @@
         <activity
             android:name=".ReviewActivity"
             android:theme="@style/Theme.AppCompat" />
-        <activity android:name=".GetUserInfoActivity"></activity>
     </application>
 
 </manifest>
