@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.IvoryStore.analytics.AnalyticsManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,7 +17,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
 public class SignInActivity extends Activity {
-
+    private AnalyticsManager analyticsManager = AnalyticsManager.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +73,7 @@ public class SignInActivity extends Activity {
         emailButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                analyticsManager.trackLoginEvent(EmailPasswordActivity.class.getSimpleName());
                 Intent intent = new Intent(getApplicationContext(), EmailPasswordActivity.class);
                 startActivity(intent);
                 finish();
@@ -81,6 +83,7 @@ public class SignInActivity extends Activity {
         googleButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                analyticsManager.trackLoginEvent(GoogleSignInActivity.class.getSimpleName());
                 Intent intent = new Intent(getApplicationContext(), GoogleSignInActivity.class);
                 startActivity(intent);
                 finish();
@@ -90,6 +93,7 @@ public class SignInActivity extends Activity {
         facebookButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                analyticsManager.trackLoginEvent(FacebookSignInActivity.class.getSimpleName());
                 Intent intent = new Intent(getApplicationContext(), FacebookSignInActivity.class);
                 startActivity(intent);
                 finish();
@@ -99,6 +103,7 @@ public class SignInActivity extends Activity {
         anonymousButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                analyticsManager.trackLoginEvent(AnonymousHomeActivity.class.getSimpleName());
                 Intent intent = new Intent(getApplicationContext(), AnonymousHomeActivity.class);
                 startActivity(intent);
                 finish();

@@ -54,6 +54,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
+        <meta-data android:name="com.appsee.ApiKey" android:value="f22f093a3dfc41fb8f9af3f630f2b195" />
     </application>
 
 </manifest>

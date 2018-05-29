@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.IvoryStore.analytics.AnalyticsManager;
+
 public class GetUserInfoActivity extends Activity {
 
     final Context context = this;
@@ -20,11 +22,14 @@ public class GetUserInfoActivity extends Activity {
     private EditText age;
     private EditText country;
     private EditText city;
+    private AnalyticsManager analyticsManager = AnalyticsManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_user_info);
+
+        analyticsManager.trackSignupEvent(this.getCallingActivity().getClassName());
 
         submitButton = (Button) findViewById(R.id.buttonSubmitUserProperties);
         firstName = (EditText) findViewById(R.id.editTextUserFirstName);

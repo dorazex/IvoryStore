@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.IvoryStore.adapter.ReviewsAdapter;
+import com.example.IvoryStore.analytics.AnalyticsManager;
 import com.example.IvoryStore.model.IvoryProduct;
 import com.example.IvoryStore.model.Review;
 import com.example.IvoryStore.model.User;
@@ -44,11 +45,10 @@ public class IvoryDetailsActivity extends AppCompatActivity {
     private String key;
     private User user;
     private boolean productWasPurchased;
-
     private Button buyOrUseButton;
     private RecyclerView recyclerViewProductReviews;
-
     private List<Review> reviewsList = new ArrayList<>();
+    private AnalyticsManager analyticsManager = AnalyticsManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,12 +113,14 @@ public class IvoryDetailsActivity extends AppCompatActivity {
                     Toast.makeText(IvoryDetailsActivity.this,
                             "Anonymous cannot purchase.\nPlease log in",
                             Toast.LENGTH_SHORT).show();
+                    analyticsManager.trackAnonymousTryBuyEvent(ivoryProduct);
                     return;
                 }
 
                 if (productWasPurchased) {
                     Log.d(TAG, "buyOrUseButton.onClick() >> demonstrating product");
                     demonstrateCurrentProduct(ivoryProduct.getName());
+                    analyticsManager.trackProductUseEvent(ivoryProduct);
                 } else {
                     //Purchase the ivoryProduct.
                     Log.d(TAG, "buyOrUseButton.onClick() >> Purchase the ivoryProduct");
@@ -127,6 +129,7 @@ public class IvoryDetailsActivity extends AppCompatActivity {
                     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
                     userRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user);
                     productWasPurchased = true;
+                    analyticsManager.trackProductBuyEvent(ivoryProduct);
                     buyOrUseButton.setText("USE");
                 }
             }

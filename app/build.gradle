@@ -54,6 +54,7 @@ dependencies {
     implementation 'com.flurry.android:analytics:10.0.0@aar'
     implementation 'com.mixpanel.android:mixpanel-android:5.+'
     implementation 'com.google.firebase:firebase-messaging:17.0.0'
+    implementation 'com.appsee:appsee-android:+'
 }
 
 

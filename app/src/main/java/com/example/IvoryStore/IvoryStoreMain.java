@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.example.IvoryStore.analytics.AnalyticsManager;
 import com.example.IvoryStore.model.IvoryProduct;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -41,11 +42,10 @@ public class IvoryStoreMain extends Activity {
 
     private DatabaseReference productsRef;
     private User myUser;
-
     private RecyclerView recyclerView;
     private List<IvoryProductWithKey> productsList = new ArrayList<>();
-
     private String lastSearchedField;
+    private AnalyticsManager analyticsManager = AnalyticsManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,6 +205,8 @@ public class IvoryStoreMain extends Activity {
                 ? "elephantAge" : "price";
         Query querySearch;
         Log.d(TAG, "searchString=" + searchString + ",orderBy=" + orderBy);
+
+        analyticsManager.trackSearchEvent(searchString);
 
         productsList.clear();
         if (searchString != null && !searchString.isEmpty()) {
