@@ -41,7 +41,7 @@ public class FacebookSignInActivity extends Activity implements
     private static final String TAG = "FacebookLogin";
     static final int GET_USER_DETAILS_REQUEST = 1;
     private TextView mStatusTextView;
-    
+
     private FirebaseAuth mAuth;
 
     private CallbackManager mCallbackManager;
