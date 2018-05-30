@@ -162,6 +162,10 @@ public class GoogleSignInActivity extends Activity implements
                     Log.d(TAG, "starting intent to get user details");
                     Intent getUserDetailsIntent = new Intent(getApplicationContext(), GetUserInfoActivity.class);
                     startActivityForResult(getUserDetailsIntent, GET_USER_DETAILS_REQUEST);
+                } else{
+                    Intent ivoryStoreMainIntent = new Intent(getApplicationContext(), IvoryStoreMain.class);
+                    startActivity(ivoryStoreMainIntent);
+                    finish();
                 }
             }
 

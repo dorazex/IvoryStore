@@ -83,5 +83,9 @@ public class AnonymousHomeActivity extends Activity {
         }
         userRef.child(currentUser.getUid()).setValue(
                 new User(currentUser.getEmail(),0,null));
+
+        Intent ivoryStoreMainIntent = new Intent(getApplicationContext(), IvoryStoreMain.class);
+        startActivity(ivoryStoreMainIntent);
+        finish();
     }
 }
