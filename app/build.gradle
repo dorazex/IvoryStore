@@ -55,6 +55,7 @@ dependencies {
     implementation 'com.mixpanel.android:mixpanel-android:5.+'
     implementation 'com.google.firebase:firebase-messaging:17.0.0'
     implementation 'com.appsee:appsee-android:+'
+    implementation 'com.android.billingclient:billing:1.1'
 }
 
 
