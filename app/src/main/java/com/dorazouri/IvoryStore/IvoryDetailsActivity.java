@@ -58,6 +58,7 @@ public class IvoryDetailsActivity extends AppCompatActivity implements BillingMa
     private BillingManager mBillingManager;
     private List<IvoryProductWithKey> productsList = new ArrayList<>();
     private DatabaseReference productsRef;
+    private IvoryProductWithKey productWithKey = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +143,7 @@ public class IvoryDetailsActivity extends AppCompatActivity implements BillingMa
                     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
                     userRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user);
 
-                    IvoryProductWithKey productWithKey = null;
+
                     for (int i=0; i<productsList.size(); i++){
                         if (productsList.get(i).getIvoryProduct().equals(ivoryProduct)){
                             productWithKey = productsList.get(i);
@@ -170,14 +171,10 @@ public class IvoryDetailsActivity extends AppCompatActivity implements BillingMa
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
                             Log.w(TAG, "onCancelled", databaseError.toException());
+                            productWasPurchased = false;
                         }
                     });
 
-
-
-                    productWasPurchased = true;
-                    analyticsManager.trackProductBuyEvent(ivoryProduct);
-                    buyOrUseButton.setText("USE");
                 }
             }
         });
@@ -335,18 +332,48 @@ public class IvoryDetailsActivity extends AppCompatActivity implements BillingMa
             Log.e(TAG,"onPurchasesUpdated() << Error:"+resultCode);
             return;
         }
+        productWasPurchased = true;
+        analyticsManager.trackProductBuyEvent(ivoryProduct);
+        buyOrUseButton.setText("USE");
 
-        for (Purchase purchase : purchases) {
+        for (final Purchase purchase : purchases) {
             Log.e(TAG, "onPurchasesUpdated() >> " + purchase.toString());
 
             Log.d(TAG, "onPurchasesUpdated() >> " + purchase.getSku());
 
-            if (purchase.getSku().contains("credit")) {
+            if (!purchase.getSku().contains("SUBS_")) {
                 Log.e(TAG, "onPurchasesUpdated() >> consuming " + purchase.getSku());
                 //Only consume  one time product (subscription can't be consumed).
                 mBillingManager.consumeAsync(purchase.getPurchaseToken());
             }
             //Update the server...
+            DatabaseReference purchasesRef =
+                    FirebaseDatabase.
+                            getInstance().
+                            getReference("Purchases");
+
+            com.dorazouri.IvoryStore.model.Purchase myPurchase = new com.dorazouri.IvoryStore.model.Purchase(
+                    purchase.getPurchaseTime(),
+                    purchase.getSku(),
+                    purchase.getOrderId(),
+                    purchase.getPurchaseToken(),
+                    ivoryProduct.getPrice());
+
+            purchasesRef.push().setValue(myPurchase);
+
+//            purchasesRef.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                    dataSnapshot.getRef().setValue(myPurchase);
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//                    Log.w(TAG, "onCancelled", databaseError.toException());
+//                    productWasPurchased = false;
+//                }
+//            });
         }
 
         Log.e(TAG,"onPurchasesUpdated() <<");
