@@ -1,4 +1,4 @@
-package com.example.IvoryStore;
+package com.dorazouri.IvoryStore;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,11 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.IvoryStore.analytics.AnalyticsManager;
-import com.example.IvoryStore.model.User;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.common.api.ApiException;
+import com.dorazouri.IvoryStore.analytics.AnalyticsManager;
+import com.dorazouri.IvoryStore.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

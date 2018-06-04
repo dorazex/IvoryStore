@@ -1,4 +1,4 @@
-package com.example.IvoryStore.push;
+package com.dorazouri.IvoryStore.push;
 import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;

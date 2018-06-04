@@ -1,4 +1,4 @@
-package com.example.IvoryStore;
+package com.dorazouri.IvoryStore;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.IvoryStore.analytics.AnalyticsManager;
+import com.dorazouri.IvoryStore.analytics.AnalyticsManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;

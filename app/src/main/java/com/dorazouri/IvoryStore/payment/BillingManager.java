@@ -1,4 +1,4 @@
-package com.example.IvoryStore.payment;
+package com.dorazouri.IvoryStore.payment;
 
 /*
  * Copyright 2017 Google Inc. All Rights Reserved.
@@ -27,6 +27,7 @@ import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.ConsumeResponseListener;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
+import com.dorazouri.IvoryStore.IvoryDetailsActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -73,7 +74,7 @@ public class BillingManager implements PurchasesUpdatedListener {
      * want to make it easy for an attacker to replace the public key with one
      * of their own and then fake messages from the server.
      */
-    private static final String BASE_64_ENCODED_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkRASO558biskUCv/0YP9Vgd//zxUd4WFKeBelfq+whY0UAKB+7OJHqD/P9XdHNqwNUGjZ3q17FEfeUIIVa1fXNK59xQHoNQi1gMVsPLQ7972WEEoWhI16fbUpn0xsVBH040ilozm3sGhDBIqHZ4l9fQtkVeDnXDkpVLgbAzvnTlMpdw9wJZWvdcUzOAcc5O5MNnnFa+w83UsWeS62CX9j6xAnaoVlgOQN+WlS/KpGbHpOdjpqPIaMmDuNoxK/RgHuT/YktGYg13tLQS2ASjYDUkz1crMJZECuI4ybpTpoyu5OtHEEaU7EyHhR/9axH6CwKWtF0REeMS1Cko1EoM6LwIDAQAB";
+    private static final String BASE_64_ENCODED_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAguhjc3KOXFxHbBp33XS/BENALlnRWWLGjAMeVyT/BFwi3SowJ4lbcYnu8xIdimDNXJreeos6Fam0Pte81TFZz+Y5XBMRyJgmAUGZ6q+a85pWt7ewV3V58mjlEzsOUwZaK3RFT2osfzlT13LfVpyMx0gau2r7ISywgmY9GV+bCmjOu3zR9eQXU1n6IC4E9+zOoAnwHcvdq7ti/Z+LKtfQJ8bYKO2FcNxBMFo5HOOFojm9JaYVgGXTRUZWUVWy/8sGnqK/k/RD2dncYhktIbdlMb0Y86ApnScokb9RIlwoVw71OLHy+Qha6d/KdA2cKc+Q0vbDFPT/Of08g6oQiC8LJwIDAQAB";
 
     /**
      * Listener to the updates that happen when purchases list was updated or consumption of the
@@ -92,7 +93,7 @@ public class BillingManager implements PurchasesUpdatedListener {
         void onServiceConnected(@BillingResponse int resultCode);
     }
 
-    public BillingManager(Activity activity, final BillingUpdatesListener updatesListener) {
+    public BillingManager(IvoryDetailsActivity activity, final BillingUpdatesListener updatesListener) {
         Log.d(TAG, "Creating Billing client.");
         mActivity = activity;
         mBillingUpdatesListener = updatesListener;

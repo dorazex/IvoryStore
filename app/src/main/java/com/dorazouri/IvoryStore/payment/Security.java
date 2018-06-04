@@ -1,4 +1,4 @@
-package com.example.IvoryStore.payment;
+package com.dorazouri.IvoryStore.payment;
 /*
  * Copyright (c) 2012 Google Inc.
  *

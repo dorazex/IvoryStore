@@ -1,4 +1,4 @@
-package com.example.IvoryStore;
+package com.dorazouri.IvoryStore;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.IvoryStore.model.IvoryProduct;
+import com.dorazouri.IvoryStore.model.IvoryProduct;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -16,8 +16,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
-import com.example.IvoryStore.model.Review;
-import com.example.IvoryStore.model.User;
+import com.dorazouri.IvoryStore.model.Review;
+import com.dorazouri.IvoryStore.model.User;
 
 public class ReviewActivity extends Activity {
 

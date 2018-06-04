@@ -1,4 +1,4 @@
-package com.example.IvoryStore.adapter;
+package com.dorazouri.IvoryStore.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,14 +15,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.IvoryStore.IvoryDetailsActivity;
-import com.example.IvoryStore.model.IvoryProduct;
+import com.dorazouri.IvoryStore.IvoryDetailsActivity;
+import com.dorazouri.IvoryStore.model.IvoryProduct;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.example.IvoryStore.R;
-import com.example.IvoryStore.model.User;
+import com.dorazouri.IvoryStore.R;
+import com.dorazouri.IvoryStore.model.User;
 
 import java.util.Iterator;
 import java.util.List;

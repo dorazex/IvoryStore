@@ -1,4 +1,4 @@
-package com.example.IvoryStore;
+package com.dorazouri.IvoryStore;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.IvoryStore.analytics.AnalyticsManager;
-import com.example.IvoryStore.model.User;
+import com.dorazouri.IvoryStore.analytics.AnalyticsManager;
+import com.dorazouri.IvoryStore.model.User;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;

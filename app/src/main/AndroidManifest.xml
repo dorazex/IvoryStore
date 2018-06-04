@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.IvoryStore">
+    package="com.dorazouri.IvoryStore">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -17,17 +17,17 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".EmailPasswordActivity" />
-        <activity android:name=".GoogleSignInActivity" />
-        <activity android:name=".FacebookSignInActivity" />
-        <activity android:name=".SignInActivity" />
-        <activity android:name=".GetUserInfoActivity" />
-        <activity android:name=".AnonymousHomeActivity" />
+        <activity android:name="com.dorazouri.IvoryStore.EmailPasswordActivity" />
+        <activity android:name="com.dorazouri.IvoryStore.GoogleSignInActivity" />
+        <activity android:name="com.dorazouri.IvoryStore.FacebookSignInActivity" />
+        <activity android:name="com.dorazouri.IvoryStore.SignInActivity" />
+        <activity android:name="com.dorazouri.IvoryStore.GetUserInfoActivity" />
+        <activity android:name="com.dorazouri.IvoryStore.AnonymousHomeActivity" />
         <activity
-            android:name=".IvoryStoreMain"
+            android:name="com.dorazouri.IvoryStore.IvoryStoreMain"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
-            android:name=".SplashActivity"
+            android:name="com.dorazouri.IvoryStore.SplashActivity"
             android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,20 +36,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".IvoryDetailsActivity"
+            android:name="com.dorazouri.IvoryStore.IvoryDetailsActivity"
             android:theme="@style/Theme.AppCompat" />
         <activity
-            android:name=".ReviewActivity"
+            android:name="com.dorazouri.IvoryStore.ReviewActivity"
             android:theme="@style/Theme.AppCompat" />
 
 
-        <service android:name=".push.PushTokenHandler">
+        <service android:name="com.dorazouri.IvoryStore.push.PushTokenHandler">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
         <service
-            android:name=".push.PushNotificationService">
+            android:name="com.dorazouri.IvoryStore.push.PushNotificationService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>

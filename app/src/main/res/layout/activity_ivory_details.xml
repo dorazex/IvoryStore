@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context="com.example.IvoryStore.IvoryDetailsActivity">
+    tools:context="com.dorazouri.IvoryStore.IvoryDetailsActivity">
 
     <FrameLayout
         android:id="@+id/filter_bar_container"

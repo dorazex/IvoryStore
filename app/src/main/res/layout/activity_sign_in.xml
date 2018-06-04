@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/color_product_card_background"
-    tools:context="com.example.IvoryStore.SignInActivity">
+    tools:context="com.dorazouri.IvoryStore.SignInActivity">
 
     <TextView
         android:id="@+id/textViewDisclaimer"

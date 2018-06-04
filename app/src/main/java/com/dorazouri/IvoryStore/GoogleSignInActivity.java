@@ -1,7 +1,6 @@
-package com.example.IvoryStore;
+package com.dorazouri.IvoryStore;
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -9,8 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.IvoryStore.analytics.AnalyticsManager;
-import com.example.IvoryStore.model.User;
+import com.dorazouri.IvoryStore.analytics.AnalyticsManager;
+import com.dorazouri.IvoryStore.model.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -28,9 +27,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GoogleSignInActivity extends Activity implements
         View.OnClickListener {

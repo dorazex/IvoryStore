@@ -1,4 +1,4 @@
-package com.example.IvoryStore.adapter;
+package com.dorazouri.IvoryStore.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.IvoryStore.R;
-import com.example.IvoryStore.model.Review;
+import com.dorazouri.IvoryStore.R;
+import com.dorazouri.IvoryStore.model.Review;
 
 import java.util.List;
 

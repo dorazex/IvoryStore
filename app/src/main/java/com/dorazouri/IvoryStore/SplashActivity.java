@@ -1,10 +1,10 @@
-package com.example.IvoryStore;
+package com.dorazouri.IvoryStore;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.IvoryStore.analytics.AnalyticsManager;
+import com.dorazouri.IvoryStore.analytics.AnalyticsManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

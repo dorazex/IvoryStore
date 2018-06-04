@@ -1,4 +1,4 @@
-package com.example.IvoryStore.model;
+package com.dorazouri.IvoryStore.model;
 
 
 import android.os.Parcel;

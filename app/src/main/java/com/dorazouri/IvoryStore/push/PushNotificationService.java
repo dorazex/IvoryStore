@@ -1,4 +1,4 @@
-package com.example.IvoryStore.push;
+package com.dorazouri.IvoryStore.push;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -11,8 +11,8 @@ import android.util.Log;
 
 import java.util.Map;
 
-import com.example.IvoryStore.R;
-import com.example.IvoryStore.SplashActivity;
+import com.dorazouri.IvoryStore.R;
+import com.dorazouri.IvoryStore.SplashActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 

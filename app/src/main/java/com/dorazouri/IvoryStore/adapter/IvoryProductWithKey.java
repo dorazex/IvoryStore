@@ -1,6 +1,6 @@
-package com.example.IvoryStore.adapter;
+package com.dorazouri.IvoryStore.adapter;
 
-import com.example.IvoryStore.model.IvoryProduct;
+import com.dorazouri.IvoryStore.model.IvoryProduct;
 
 
 public class IvoryProductWithKey {

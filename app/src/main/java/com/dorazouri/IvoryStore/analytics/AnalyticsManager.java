@@ -1,14 +1,11 @@
-package com.example.IvoryStore.analytics;
+package com.dorazouri.IvoryStore.analytics;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.appsee.Appsee;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.auth.FirebaseAuth;
-import com.example.IvoryStore.R;
-import com.example.IvoryStore.model.IvoryProduct;
+import com.dorazouri.IvoryStore.model.IvoryProduct;
 
 import java.util.HashMap;
 import java.util.Map;

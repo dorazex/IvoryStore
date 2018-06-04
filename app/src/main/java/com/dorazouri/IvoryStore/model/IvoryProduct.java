@@ -1,4 +1,4 @@
-package com.example.IvoryStore.model;
+package com.dorazouri.IvoryStore.model;
 
 
 import android.os.Parcel;
@@ -117,10 +117,10 @@ public class IvoryProduct implements Parcelable {
             return false;
         }
         IvoryProduct prod = (IvoryProduct) o;
-        return this.name == prod.getName() &&
-                this.elephantAge == prod.getElephantAge() &&
-                this.getDeathReason() == prod.getDeathReason() &&
-                this.getOriginContinent() == prod.getOriginContinent() &&
+        return this.getName().equals(prod.getName()) &&
+                this.getElephantAge() == prod.getElephantAge() &&
+                this.getDeathReason().equals(prod.getDeathReason()) &&
+                this.getOriginContinent().equals(prod.getOriginContinent()) &&
                 this.getPrice() == prod.getPrice() &&
                 this.getWeight() == prod.getWeight();
     }

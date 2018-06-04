@@ -1,4 +1,4 @@
-package com.example.IvoryStore;
+package com.dorazouri.IvoryStore;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,14 +18,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.IvoryStore.adapter.ReviewsAdapter;
-import com.example.IvoryStore.analytics.AnalyticsManager;
-import com.example.IvoryStore.model.IvoryProduct;
-import com.example.IvoryStore.model.Review;
-import com.example.IvoryStore.model.User;
+import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.Purchase;
+import com.dorazouri.IvoryStore.adapter.IvoryProductWithKey;
+import com.dorazouri.IvoryStore.adapter.IvoryProductsAdapter;
+import com.dorazouri.IvoryStore.adapter.ReviewsAdapter;
+import com.dorazouri.IvoryStore.analytics.AnalyticsManager;
+import com.dorazouri.IvoryStore.model.IvoryProduct;
+import com.dorazouri.IvoryStore.model.Review;
+import com.dorazouri.IvoryStore.model.User;
+import com.dorazouri.IvoryStore.payment.BillingManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,7 +43,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IvoryDetailsActivity extends AppCompatActivity {
+public class IvoryDetailsActivity extends AppCompatActivity implements BillingManager.BillingUpdatesListener {
 
     public final String TAG = "IvoryDetailsActivity";
 
@@ -49,11 +55,16 @@ public class IvoryDetailsActivity extends AppCompatActivity {
     private RecyclerView recyclerViewProductReviews;
     private List<Review> reviewsList = new ArrayList<>();
     private AnalyticsManager analyticsManager = AnalyticsManager.getInstance();
+    private BillingManager mBillingManager;
+    private List<IvoryProductWithKey> productsList = new ArrayList<>();
+    private DatabaseReference productsRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ivory_details);
+
+        mBillingManager = new BillingManager(this,this);
 
         key = getIntent().getStringExtra("key");
         ivoryProduct = getIntent().getParcelableExtra("ivoryProduct");
@@ -103,6 +114,8 @@ public class IvoryDetailsActivity extends AppCompatActivity {
             }
         }
 
+        getAllProducts();
+
         buyOrUseButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -128,6 +141,40 @@ public class IvoryDetailsActivity extends AppCompatActivity {
                     user.updateTotalPurchase(ivoryProduct.getPrice());
                     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
                     userRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user);
+
+                    IvoryProductWithKey productWithKey = null;
+                    for (int i=0; i<productsList.size(); i++){
+                        if (productsList.get(i).getIvoryProduct().equals(ivoryProduct)){
+                            productWithKey = productsList.get(i);
+                        }
+                    }
+                    if (productWithKey == null) Log.d(TAG, "Couldn't find product: " + ivoryProduct.getName());
+
+                    DatabaseReference productRef =
+                            FirebaseDatabase.
+                                    getInstance().
+                                    getReference("Products").
+                                    child(productWithKey.getKey());
+
+                    productRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if(dataSnapshot.hasChild("available")){
+                                String sku = BillingClient.SkuType.INAPP;
+                                String originalProductKeyLowered = dataSnapshot.getKey().toLowerCase();
+                                String productKey = originalProductKeyLowered.substring(1,originalProductKeyLowered.length());
+                                mBillingManager.initiatePurchaseFlow(productKey,sku);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.w(TAG, "onCancelled", databaseError.toException());
+                        }
+                    });
+
+
+
                     productWasPurchased = true;
                     analyticsManager.trackProductBuyEvent(ivoryProduct);
                     buyOrUseButton.setText("USE");
@@ -185,6 +232,67 @@ public class IvoryDetailsActivity extends AppCompatActivity {
 
     }
 
+    private void getAllProducts() {
+        productsList.clear();
+        getAllProductsUsingChildListenrs();
+    }
+
+    private void getAllProductsUsingChildListenrs() {
+
+        productsRef = FirebaseDatabase.getInstance().getReference("Products");
+        productsRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
+                Log.d(TAG, "onChildAdded(Products) >> " + snapshot.getKey());
+                IvoryProductWithKey ivoryProductWithKey = new IvoryProductWithKey(snapshot.getKey(), snapshot.getValue(IvoryProduct.class));
+                productsList.add(ivoryProductWithKey);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
+                Log.d(TAG, "onChildChanged(Products) >> " + snapshot.getKey());
+
+                IvoryProduct ivoryProduct = snapshot.getValue(IvoryProduct.class);
+                String key = snapshot.getKey();
+
+                for (int i = 0; i < productsList.size(); i++) {
+                    IvoryProductWithKey ivoryProductWithKey = (IvoryProductWithKey) productsList.get(i);
+                    if (ivoryProductWithKey.getKey().equals(snapshot.getKey())) {
+                        ivoryProductWithKey.setIvoryProduct(ivoryProduct);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
+                Log.d(TAG, "onChildMoved(Products) >> " + snapshot.getKey());
+                Log.d(TAG, "onChildMoved(Products) << Doing nothing");
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot snapshot) {
+                Log.d(TAG, "onChildRemoved(Products) >> " + snapshot.getKey());
+
+                for (int i = 0; i < productsList.size(); i++) {
+                    IvoryProductWithKey ivoryProductWithKey = (IvoryProductWithKey) productsList.get(i);
+                    if (ivoryProductWithKey.getKey().equals(snapshot.getKey())) {
+                        productsList.remove(i);
+                        Log.e(TAG, "onChildRemoved(Products) >> i=" + i);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "onCancelled(Products) >>" + databaseError.getMessage());
+            }
+        });
+
+    }
+
     private void demonstrateCurrentProduct(String productName) {
         Log.i(TAG, "demonstrateCurrentProduct() >> product name=" + productName);
         StorageReference imageRef = FirebaseStorage
@@ -209,6 +317,53 @@ public class IvoryDetailsActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception exception) {
             }
         });
+    }
+
+    public void onBillingClientSetupFinished() {
+
+        Log.e(TAG,"onBillingSetupFinished() >>");
+
+        Log.e(TAG,"onBillingSetupFinished() <<");
+
+    }
+
+    public void onPurchasesUpdated(int resultCode,List<Purchase> purchases){
+
+        Log.e(TAG,"onPurchasesUpdated() >> ");
+
+        if (resultCode != BillingClient.BillingResponse.OK) {
+            Log.e(TAG,"onPurchasesUpdated() << Error:"+resultCode);
+            return;
+        }
+
+        for (Purchase purchase : purchases) {
+            Log.e(TAG, "onPurchasesUpdated() >> " + purchase.toString());
+
+            Log.d(TAG, "onPurchasesUpdated() >> " + purchase.getSku());
+
+            if (purchase.getSku().contains("credit")) {
+                Log.e(TAG, "onPurchasesUpdated() >> consuming " + purchase.getSku());
+                //Only consume  one time product (subscription can't be consumed).
+                mBillingManager.consumeAsync(purchase.getPurchaseToken());
+            }
+            //Update the server...
+        }
+
+        Log.e(TAG,"onPurchasesUpdated() <<");
+    }
+
+    public void onConsumeFinished(String token, @BillingClient.BillingResponse int result) {
+
+        Log.e(TAG,"onConsumeFinished() >> result:"+result+" ,token:"+token);
+
+
+        if (result == BillingClient.BillingResponse.OK) {
+            Log.d(TAG, "Product with token:"+ token+ " was consumed successfully");
+        } else {
+            Log.e(TAG, "Error consuming product with token:" + token + " , error code:"+result);
+        }
+
+        Log.e(TAG,"onConsumeFinished() <<");
 
     }
 

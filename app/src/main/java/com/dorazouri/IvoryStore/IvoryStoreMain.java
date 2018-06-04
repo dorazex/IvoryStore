@@ -1,4 +1,4 @@
-package com.example.IvoryStore;
+package com.dorazouri.IvoryStore;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,8 +13,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.example.IvoryStore.analytics.AnalyticsManager;
-import com.example.IvoryStore.model.IvoryProduct;
+import com.dorazouri.IvoryStore.analytics.AnalyticsManager;
+import com.dorazouri.IvoryStore.model.IvoryProduct;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -29,9 +29,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.example.IvoryStore.adapter.IvoryProductWithKey;
-import com.example.IvoryStore.adapter.IvoryProductsAdapter;
-import com.example.IvoryStore.model.User;
+import com.dorazouri.IvoryStore.adapter.IvoryProductWithKey;
+import com.dorazouri.IvoryStore.adapter.IvoryProductsAdapter;
+import com.dorazouri.IvoryStore.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
